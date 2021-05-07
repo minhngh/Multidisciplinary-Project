@@ -53,6 +53,7 @@ async def create_user(user: UserSchema = Body(...)):
     param = (user.username, user.password)
 
     my_cursor.execute(sql, param)
+    my_cursor.commit()
 
     return sign_jwt(user.username)
 

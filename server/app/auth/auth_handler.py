@@ -1,4 +1,5 @@
 import jwt
+# noinspection PyPackageRequirements
 import decouple
 
 import time
@@ -9,16 +10,16 @@ __jwt_secret = decouple.config("secret")
 __jwt_algo = decouple.config("algorithm")
 
 
-def token_response(token: str):
+def token_response(token: bytes):
     return {
         "access_token": token
     }
 
 
-def sign_jwt(sth: str) -> Dict[str, str]:
+def sign_jwt(sth: str) -> Dict[str, bytes]:
     payload = {
         "data": sth,
-        "exp": time.time() + 60
+        "exp": time.time() + 3600
     }
     token = jwt.encode(payload, __jwt_secret, algorithm=__jwt_algo)
 
