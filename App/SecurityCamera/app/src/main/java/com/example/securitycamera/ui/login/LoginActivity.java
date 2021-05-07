@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.securitycamera.R;
+import com.example.securitycamera.data.model.Result;
+import com.example.securitycamera.data.remote.MainApiUtils;
 import com.example.securitycamera.ui.MainActivity;
 import com.example.securitycamera.viewmodel.LoginViewModel;
 
@@ -51,12 +53,11 @@ public class LoginActivity extends AppCompatActivity {
         };
         usernameEt.addTextChangedListener(afterTextChangedListener);
         passwordEt.addTextChangedListener(afterTextChangedListener);
-
         loginBtn.setOnClickListener(v -> {
            loginViewModel.login(usernameEt.getText().toString(),
                                 passwordEt.getText().toString());
            loginBtn.setVisibility(View.INVISIBLE);
-           loginBtn.setVisibility(View.VISIBLE);
+           loadingPb.setVisibility(View.VISIBLE);
         });
 
         loginViewModel.getLoginDataValid().observe(this, loginDataState -> {
@@ -75,10 +76,10 @@ public class LoginActivity extends AppCompatActivity {
            }
         });
         loginViewModel.getLoginResult().observe(this, result ->{
-            if (!result){
-                Toast.makeText(this, "Đăng nhập thất bại. Vui lòng thử lại", Toast.LENGTH_SHORT).show();
+            if (result instanceof Result.Error){
+                Toast.makeText(this, ((Result.Error) result).getError().getMessage(), Toast.LENGTH_SHORT).show();
                 loginBtn.setVisibility(View.VISIBLE);
-                loginBtn.setVisibility(View.INVISIBLE);
+                loadingPb.setVisibility(View.INVISIBLE);
             }
             else{
                 Intent intent = new Intent(this, MainActivity.class);
