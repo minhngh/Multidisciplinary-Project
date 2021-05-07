@@ -26,4 +26,4 @@ Check out the [post](https://testdriven.io/blog/fastapi-jwt-auth/).
     (venv)$ python main.py
     ```
 
-1. Test at [http://localhost:8081/docs](http://localhost:8081/docs)
+1. Test at [http://localhost:8081/docs](http://localhost:8000)
