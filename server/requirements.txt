@@ -4,3 +4,4 @@ mysql-connector-python~=8.0.24
 pydantic~=1.8.1
 uvicorn~=0.12.3
 requests~=2.25.1
+python-decouple~=3.3
