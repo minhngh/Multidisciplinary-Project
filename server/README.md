@@ -25,5 +25,11 @@ Check out the [post](https://testdriven.io/blog/fastapi-jwt-auth/).
     ```sh
     (venv)$ python main.py
     ```
+   
+   or
+   ```sh
+   uvicorn app.api:app --host 0.0.0.0 --port 8000 --reload
+   ```
 
-1. Test at [http://localhost:8081/docs](http://localhost:8000)
+
+1. Test at [http://localhost:8000](http://localhost:8000)
