@@ -40,7 +40,7 @@ public class LoginViewModel extends ViewModel {
                     loginResult.postValue(new Result.Success<>(true));
                 }
                 else{
-                    loginResult.postValue(new Result.Error(new Exception(response.body() == null ? "Đã có lỗi. Vui lòng thử lại!" : response.body().get("message").toString())));
+                    loginResult.postValue(new Result.Error(new Exception(response.body() == null ? "Đã có lỗi. Vui lòng thử lại!" : response.body().get("access_token").toString())));
                 }
 //                Log.d("LOGIN", response.body());
             }
