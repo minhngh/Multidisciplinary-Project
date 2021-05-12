@@ -1,0 +1,7 @@
+IO_USERNAME: USERNAME
+IO_KEY: KEY
+feed: 
+  input:
+    - bk-iot-magnetic
+  output:
+    - bk-iot-speaker
