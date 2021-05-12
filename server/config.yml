@@ -1,0 +1,14 @@
+#Database info
+host: localhost
+user: dbusername  #EDIT ME
+password: dbpassword #EDIT ME
+database: USER
+
+#Adafruit info
+IO_USERNAME: adausername #EDITME
+IO_KEY: adapassword #EDITME
+feed: 
+  input:
+    - bk-iot-magnetic
+  output:
+    - bk-iot-speaker
