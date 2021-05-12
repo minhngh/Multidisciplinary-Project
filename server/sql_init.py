@@ -21,7 +21,7 @@ if __name__ == "__main__":
         host="localhost",
         user=username,
         password=password,
-        database="User"
+        database="USER"
     )
 
     my_cursor = my_db.cursor()
