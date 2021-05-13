@@ -22,6 +22,7 @@ public class HomeFragment extends Fragment {
     private TextView doorStateTv;
     private TextView doorTimeTv;
     private ImageView doorIv;
+    private androidx.cardview.widget.CardView turnOffspeaker;
     private ImageButton reloadDoorStateIb;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -53,5 +54,6 @@ public class HomeFragment extends Fragment {
         doorTimeTv = view.findViewById(R.id.tv_door_time);
         doorIv = view.findViewById(R.id.iv_door);
         reloadDoorStateIb = view.findViewById(R.id.ib_reload_door_state);
+        turnOffspeaker =  view.findViewById(R.id.fr_warning);
     }
 }
