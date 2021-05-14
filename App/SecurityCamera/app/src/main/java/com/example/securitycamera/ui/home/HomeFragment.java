@@ -1,5 +1,6 @@
 package com.example.securitycamera.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.securitycamera.R;
+import com.example.securitycamera.ui.login.LoginActivity;
 import com.example.securitycamera.viewmodel.HomeViewModel;
 
 public class HomeFragment extends Fragment {
@@ -22,7 +24,9 @@ public class HomeFragment extends Fragment {
     private TextView doorStateTv;
     private TextView doorTimeTv;
     private ImageView doorIv;
+    private androidx.cardview.widget.CardView turnOffspeaker;
     private ImageButton reloadDoorStateIb;
+    private ImageView logoutIv;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +49,14 @@ public class HomeFragment extends Fragment {
                 doorStateTv.setText("CLOSE");
             }
         });
+
+        logoutIv.setOnClickListener(v -> {
+            homeViewModel.logout();
+
+            Intent intent = new Intent(requireActivity(), LoginActivity.class);
+            startActivity(intent);
+            requireActivity().finish();
+        });
 //        homeViewModel.setDoorState(false);
     }
     private void findView(View view){
@@ -53,5 +65,8 @@ public class HomeFragment extends Fragment {
         doorTimeTv = view.findViewById(R.id.tv_door_time);
         doorIv = view.findViewById(R.id.iv_door);
         reloadDoorStateIb = view.findViewById(R.id.ib_reload_door_state);
+        turnOffspeaker =  view.findViewById(R.id.fr_warning);
+        logoutIv = view.findViewById(R.id.iv_logout);
+
     }
 }
