@@ -4,16 +4,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.securitycamera.data.model.ScheduleContainer;
+
 public class ScheduleViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<ScheduleContainer> mScheduleContainer;
 
     public ScheduleViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is schedule fragment");
+        mScheduleContainer = new MutableLiveData<>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<ScheduleContainer> getContainer() {
+        return mScheduleContainer;
     }
 }

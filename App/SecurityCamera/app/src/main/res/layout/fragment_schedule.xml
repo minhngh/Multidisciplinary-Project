@@ -7,7 +7,7 @@
     tools:context=".ui.setting.SettingFragment">
 
     <TextView
-        android:id="@+id/text_schedule"
+        android:id="@+id/text_description"
         android:layout_width="237dp"
         android:layout_height="20dp"
         android:layout_marginStart="4dp"
@@ -20,13 +20,13 @@
         app:layout_constraintVertical_bias="0.481" />
 
     <Switch
-        android:id="@+id/switch_test"
+        android:id="@+id/switch_activeness"
         android:layout_width="92dp"
         android:layout_height="21dp"
         android:text="Switch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_schedule"
+        app:layout_constraintStart_toEndOf="@+id/text_description"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
