@@ -1,4 +1,4 @@
-package com.example.securitycamera.ui;
+package com.example.securitycamera.ui.main;
 
 import android.os.Bundle;
 

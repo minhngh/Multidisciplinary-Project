@@ -16,8 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.securitycamera.R;
 import com.example.securitycamera.data.model.Result;
-import com.example.securitycamera.data.remote.MainApiUtils;
-import com.example.securitycamera.ui.MainActivity;
+import com.example.securitycamera.ui.main.MainActivity;
 import com.example.securitycamera.viewmodel.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
