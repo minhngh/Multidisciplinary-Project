@@ -1,4 +1,5 @@
 from mqtt import MQTT
+from datetime import datetime
 mqtt = MQTT()
 
 from app.model import *
@@ -76,11 +77,11 @@ async def user_login(user: UserLoginSchema = Body(...)):
 @app.post("/check-door")
 async def check_door(user: CheckDoor = Body(...)):
     #TODO: check token
-
+    now = datetime.now()
     mqtt_output = mqtt.receive_door_state()
-    state = "open" if mqtt_output else "open"
+    state = "open" if mqtt_output else "close"
 
-    return {"door_state":state}
+    return {"door_state":state, "time": now.strftime("%H:%M:%S, %d/%m/%Y")}
 
 @app.post("/mute")
 async def mute(user: Mute = Body(...)):

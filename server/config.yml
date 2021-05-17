@@ -1,12 +1,12 @@
 #Database info
 host: localhost
-user: dbusername  #EDIT ME
-password: dbpassword #EDIT ME
+user: test  #EDIT ME
+password: '12345678' #EDIT ME
 database: USER
 
 #Adafruit info
-IO_USERNAME: adausername #EDITME
-IO_KEY: adapassword #EDITME
+IO_USERNAME: username #EDITME
+IO_KEY: key #EDITME
 feed: 
   input:
     - bk-iot-magnetic

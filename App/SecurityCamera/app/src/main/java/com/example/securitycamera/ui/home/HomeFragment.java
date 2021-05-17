@@ -34,18 +34,27 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findView(view);
+        homeViewModel.checkDoorState();
 
         homeViewModel.getDoorState().observe(getViewLifecycleOwner(), doorState -> {
+            if (doorState == null)
+                return;
             if (doorState.isOpen()){
                 doorIv.setImageResource(R.drawable.ic_opened_door_aperture);
                 doorStateTv.setText("OPEN");
+
             }
             else{
                 doorIv.setImageResource(R.drawable.ic_closed_filled_rectangular_door);
                 doorStateTv.setText("CLOSE");
             }
+            doorTimeTv.setText(doorState.getTime());
         });
 //        homeViewModel.setDoorState(false);
+
+        reloadDoorStateIb.setOnClickListener(v -> {
+            homeViewModel.checkDoorState();
+        });
     }
     private void findView(View view){
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
