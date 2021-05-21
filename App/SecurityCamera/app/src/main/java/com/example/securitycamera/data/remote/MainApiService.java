@@ -9,4 +9,10 @@ import retrofit2.http.POST;
 public interface MainApiService {
     @POST("/check-door")
     Call<JsonObject> checkDoorState(@Body Token token);
+
+    @POST("/mute")
+    Call<JsonObject> mute(@Body Token token);
+
+    @POST("/unmute")
+    Call<JsonObject> unmute(@Body Token token);
 }

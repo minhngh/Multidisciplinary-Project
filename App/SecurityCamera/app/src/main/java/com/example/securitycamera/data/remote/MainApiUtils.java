@@ -29,6 +29,13 @@ public class MainApiUtils {
     public Call<JsonObject> checkDoorState(String accessToken){
         return apiService.checkDoorState(new Token(accessToken));
     }
+    public Call<JsonObject>mute(String accessToken){
+        return apiService.mute(new Token(accessToken));
+    }
+
+    public Call<JsonObject>unmute(String accessToken){
+        return apiService.unmute(new Token(accessToken));
+    }
 }
 
 

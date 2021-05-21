@@ -1,5 +1,6 @@
 package com.example.securitycamera.ui.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.securitycamera.R;
 import com.example.securitycamera.viewmodel.HomeViewModel;
 
+
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
@@ -23,7 +25,11 @@ public class HomeFragment extends Fragment {
     private TextView doorTimeTv;
     private ImageView doorIv;
     private ImageButton reloadDoorStateIb;
-
+    private ImageButton speakerIb;
+    private TextView warningText;
+    private TextView instructText;
+    private boolean mute = true;
+    private RelativeLayout speakerArea;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -55,12 +61,39 @@ public class HomeFragment extends Fragment {
         reloadDoorStateIb.setOnClickListener(v -> {
             homeViewModel.checkDoorState();
         });
+        speakerIb.setOnClickListener(v ->{
+            toggleSpeakerState();
+        });
     }
+
+    private void toggleSpeakerState() {
+        if (mute){
+            speakerArea.setBackgroundColor(Color.parseColor("#EE4E4E"));
+            speakerIb.setBackgroundColor(Color.parseColor("#EE4E4E"));
+            warningText.setText("Detected a stranger opening the door");
+            instructText.setText("Press here to turn off speaker");
+            homeViewModel.unmute();
+            mute = false;
+        }
+        else{
+            speakerArea.setBackgroundColor(Color.parseColor("#FF03DAC5"));
+            speakerIb.setBackgroundColor(Color.parseColor("#FF03DAC5"));
+            warningText.setText("Everything is still good");
+            instructText.setText("Press here to turn on speaker");
+            homeViewModel.mute();
+            mute = true;
+        }
+    }
+
     private void findView(View view){
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         doorStateTv = view.findViewById(R.id.tv_door_state);
         doorTimeTv = view.findViewById(R.id.tv_door_time);
         doorIv = view.findViewById(R.id.iv_door);
         reloadDoorStateIb = view.findViewById(R.id.ib_reload_door_state);
+        speakerIb = view.findViewById(R.id.ib_notif);
+        speakerArea = view.findViewById(R.id.speaker_area);
+        warningText = view.findViewById(R.id.tv_warning);
+        instructText = view.findViewById(R.id.tv_insruct);
     }
 }

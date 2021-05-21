@@ -8,12 +8,13 @@ import com.example.securitycamera.data.model.DoorState;
 import com.example.securitycamera.data.remote.MainApiUtils;
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeViewModel extends ViewModel {
-
     private MutableLiveData<DoorState> doorState = new MutableLiveData<>();
     private MainApiUtils mainApiService = MainApiUtils.getInstance();
 
@@ -38,7 +39,12 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
-
+    public void mute(){
+        Call<JsonObject> call = mainApiService.mute("TOKEN");
+    }
+    public void unmute(){
+        Call<JsonObject>call = mainApiService.unmute("TOKEN");
+    }
     public LiveData<DoorState> getDoorState() {
         return doorState;
     }
