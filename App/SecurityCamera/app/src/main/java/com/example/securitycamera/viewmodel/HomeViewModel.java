@@ -41,9 +41,31 @@ public class HomeViewModel extends ViewModel {
 
     public void mute(){
         Call<JsonObject> call = mainApiService.mute("TOKEN");
+        call.enqueue(new Callback<JsonObject>(){
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
     }
     public void unmute(){
-        Call<JsonObject>call = mainApiService.unmute("TOKEN");
+        Call<JsonObject> call = mainApiService.unmute("TOKEN");
+        call.enqueue(new Callback<JsonObject>(){
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
     }
     public LiveData<DoorState> getDoorState() {
         return doorState;

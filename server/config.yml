@@ -5,8 +5,8 @@ password: '12345678' #EDIT ME
 database: USER
 
 #Adafruit info
-IO_USERNAME: username #EDITME
-IO_KEY: key #EDITME
+IO_USERNAME: nhminh #EDITME
+IO_KEY: aio_JGEZ88RllpNEU7pyf43gu0iaL9Bz #EDITME
 feed: 
   input:
     - bk-iot-magnetic
