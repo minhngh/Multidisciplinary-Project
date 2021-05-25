@@ -1,12 +1,4 @@
-<<<<<<< HEAD
 from app.model import UserSchema, UserLoginSchema
-=======
-from mqtt import MQTT
-from datetime import datetime
-mqtt = MQTT()
-
-from app.model import *
->>>>>>> feature/mqtt_services
 from app.auth.auth_bearer import JWTBearer
 from app.auth.auth_handler import sign_jwt
 
@@ -77,29 +69,3 @@ async def user_login(user: UserLoginSchema = Body(...)):
     if check_user(user):
         return sign_jwt(user.username)
     raise HTTPException(status_code=401, detail="Wrong username/password.")
-<<<<<<< HEAD
-=======
-
-@app.post("/check-door")
-async def check_door(user: CheckDoor = Body(...)):
-    #TODO: check token
-    now = datetime.now()
-    mqtt_output = mqtt.receive_door_state()
-    state = "open" if mqtt_output else "close"
-
-    return {"door_state":state, "time": now.strftime("%H:%M:%S, %d/%m/%Y")}
-
-@app.post("/mute")
-async def mute(user: Mute = Body(...)):
-    #TODO: check token
-
-    mqtt.send__speaker_data(0)
-    return {"mute":"successful"}
-
-@app.post("/unmute")
-async def unmute(user: Unmute = Body(...)):
-    #TODO: check token
-
-    mqtt.send__speaker_data(1000)
-    return {"unmute":"successful"}
->>>>>>> feature/mqtt_services

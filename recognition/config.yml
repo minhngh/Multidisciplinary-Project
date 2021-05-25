@@ -1,7 +1,0 @@
-min_confidence: 0.8
-min_w: 50
-min_h: 50
-save_cropped_faces": true
-embeddings_path: embeddings/embeds.npy
-classes_path: embeddings/classes.csv
-k_neighbors: 5

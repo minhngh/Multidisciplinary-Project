@@ -1,21 +1,4 @@
-<<<<<<< HEAD
 host: localhost
 user: test
 password: '12345678'
 database: USER
-=======
-#Database info
-host: localhost
-user: test  #EDIT ME
-password: '12345678' #EDIT ME
-database: USER
-
-#Adafruit info
-IO_USERNAME: nhminh #EDITME
-IO_KEY: aio_JGEZ88RllpNEU7pyf43gu0iaL9Bz #EDITME
-feed: 
-  input:
-    - bk-iot-magnetic
-  output:
-    - bk-iot-speaker
->>>>>>> feature/mqtt_services
