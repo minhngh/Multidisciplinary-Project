@@ -199,12 +199,20 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
             <ImageButton
+<<<<<<< HEAD
                 android:id="@+id/ib_reload_mode"
+=======
+                android:id="@+id/ib_flip_mode"
+>>>>>>> feature/mqtt_services
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:scaleType="fitCenter"
                 android:background="@color/white"
+<<<<<<< HEAD
                 android:src="@drawable/ic_baseline_refresh_24"
+=======
+                android:src="@drawable/ic_baseline_flip_mode"
+>>>>>>> feature/mqtt_services
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
@@ -212,21 +220,37 @@
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
         android:id="@+id/fr_warning"
+<<<<<<< HEAD
         android:layout_width="0dp"
+=======
+        android:layout_width="match_parent"
+>>>>>>> feature/mqtt_services
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="40dp"
         android:layout_marginVertical="20dp"
         app:cardElevation="2dp"
+<<<<<<< HEAD
         app:cardCornerRadius="30dp">
 
 
         <RelativeLayout
+=======
+        app:cardCornerRadius="15dp">
+
+
+        <RelativeLayout
+            android:id="@+id/speaker_area"
+>>>>>>> feature/mqtt_services
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="10dp"
             android:paddingVertical="5dp"
+<<<<<<< HEAD
             android:background="@color/pink">
+=======
+            android:background="@color/teal_200">
+>>>>>>> feature/mqtt_services
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -239,7 +263,11 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="16sp"
+<<<<<<< HEAD
                     android:text="Detecting a stranger opening the door"
+=======
+                    android:text="Everything is still good"
+>>>>>>> feature/mqtt_services
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -249,13 +277,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+<<<<<<< HEAD
                     android:text="Press here to turn off speaker"
+=======
+                    android:text="Press here to turn on speaker"
+>>>>>>> feature/mqtt_services
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+<<<<<<< HEAD
                 <ImageView
                     android:id="@+id/iv_notif"
                     android:layout_width="36dp"
@@ -263,6 +296,13 @@
                     android:layout_marginStart="136dp"
                     android:contentDescription=""
                     android:gravity="center"
+=======
+                <ImageButton
+                    android:id="@+id/ib_notif"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:background="@color/teal_200"
+>>>>>>> feature/mqtt_services
                     android:src="@drawable/ic_baseline_notifications_active_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
