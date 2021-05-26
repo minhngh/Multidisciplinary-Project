@@ -23,14 +23,14 @@
 #include "Base64.h"
 
 /* 1. Define the WiFi credentials */
-#define WIFI_SSID "*********"
-#define WIFI_PASSWORD "**********"
+#define WIFI_SSID "Neutron"
+#define WIFI_PASSWORD "longle2000"
 
 /* 2. Define the API Key */
-#define API_KEY "*****************"
+#define API_KEY "tNhiqwGKbWFmObXJQD0eXFeFUSClt7NsYRE1sIJ6"
 
 /* 3. Define the RTDB URL */
-#define DATABASE_URL "***********************" //<databaseName>.firebaseio.com or <databaseName>.<region>.firebasedatabase.app
+#define DATABASE_URL "esp32-camera-66eeb-default-rtdb.firebaseio.com" //<databaseName>.firebaseio.com or <databaseName>.<region>.firebasedatabase.app
 
 
 //Define Firebase Data object
@@ -56,7 +56,7 @@ FirebaseData fbdo;
 #define PCLK_GPIO_NUM     22
 
 
-const int timerInterval = 20000;    // time between each HTTP POST image
+const int timerInterval = 6000;    // time between each HTTP POST image
 unsigned long previousMillis = 0;   // last time image was sent
 
 bool taskCompleted = false;
