@@ -42,4 +42,10 @@ public class MainApiUtils {
     public Call<JsonObject>unmute(String accessToken){
         return apiService.unmute(new Token(accessToken));
     }
+    public Call<JsonObject> turnOnCaution(String accessToken){
+        return apiService.turnOnCaution(new Token(accessToken));
+    }
+    public Call<JsonObject>turnOffCaution(String accessToken){
+        return apiService.turnOffCaution(new Token(accessToken));
+    }
 }

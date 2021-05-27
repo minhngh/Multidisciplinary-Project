@@ -20,4 +20,8 @@ public interface MainApiService {
     Call<JsonObject> mute(@Body Token token);
     @POST("/unmute")
     Call<JsonObject> unmute(@Body Token token);
+    @POST("/turn-on-caution")
+    Call<JsonObject> turnOnCaution(@Body Token token);
+    @POST("/turn-off-caution")
+    Call<JsonObject> turnOffCaution(@Body Token token);
 }
