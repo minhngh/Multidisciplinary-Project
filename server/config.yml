@@ -2,3 +2,12 @@ host: localhost
 user: test
 password: '12345678'
 database: USER
+
+#Adafruit info
+IO_USERNAME: ...
+IO_KEY: ...
+feed: 
+  input:
+    - bk-iot-magnetic
+  output:
+    - bk-iot-speaker

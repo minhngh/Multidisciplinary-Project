@@ -11,7 +11,11 @@ from fastapi import  HTTPException
 
 import mysql.connector
 import os
+import sys
 import yaml
+
+from app.utils import *
+from threading import Thread
 
 path = os.path.abspath(__file__)
 with open(os.path.join(path.rsplit(os.path.sep, 2)[0], 'config.yml'), 'r') as f:
@@ -83,6 +87,14 @@ async def check_door(user: CheckDoor = Body(...)):
 
     return {"door_state":state, "time": now.strftime("%H:%M:%S, %d/%m/%Y")}
 
+@app.post("/check-mode")
+async def check_door(user: CheckMode = Body(...)):
+    #TODO: check token
+    now = datetime.now()
+    mode = get_mode().lower()
+
+    return {"mode":mode, "time": now.strftime("%H:%M:%S, %d/%m/%Y")}
+
 @app.post("/mute")
 async def mute(user: Mute = Body(...)):
     #TODO: check token
@@ -96,3 +108,29 @@ async def unmute(user: Unmute = Body(...)):
 
     mqtt.send__speaker_data(1000)
     return {"unmute":"successful"}
+
+#turn_on_thread = KillableThread(target=turn_on,args=[turn_on_thread,mqtt])
+caution_thread = CautionThread(mqtt=mqtt)
+
+@app.post("/turn-on-caution")
+async def caution(user: Caution = Body(...)):
+    #TODO: check token
+
+    if get_mode() == 'CAUTION':
+        return {"turn-on-caution":"Mode is already CAUTION, do nothing"}
+    try:
+        caution_thread.start()
+    except RuntimeError as e:
+        if str(e)=="threads can only be started once":
+            caution_thread.run()
+        else: print(e)
+    return {"turn-on-caution":"successful"}
+    
+
+@app.post("/turn-off-caution")
+async def normal(user: Normal = Body(...)):
+    #TODO: check token
+
+    # turn_off()
+    caution_thread.kill()
+    return {"turn-off-caution":"successful"}

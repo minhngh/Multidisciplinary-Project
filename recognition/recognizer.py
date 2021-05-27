@@ -5,14 +5,16 @@ import faiss
 from face_detector import FaceDetector
 from feature_extractor import FeatureExtractor
 from utils import get_config, get_config, get_class
-
+import os
+path = os.path.abspath(__file__)
 class FaceRecognizer:
-    def __init__(self, config_path = 'config.yml'):
+    # def __init__(self, config_path = os.path.join(path.rsplit(os.path.sep, 1)[0],'config.yml')):
+    def __init__(self, config_path = os.path.join(path.rsplit(os.path.sep, 1)[0],'config.yml')):
         config = get_config(config_path)
         self.detector = FaceDetector(config)
         self.extractor = FeatureExtractor()
-        self.embeddings = np.load(config['embeddings_path'])
-        self.df = pd.read_csv(config['classes_path'])
+        self.embeddings = np.load(os.path.join(path.rsplit(os.path.sep, 1)[0],config['embeddings_path']))
+        self.df = pd.read_csv(os.path.join(path.rsplit(os.path.sep, 1)[0],config['classes_path']))
         self.index = faiss.IndexFlatL2(128)
         self.index.add(self.embeddings)
         self.knn = config['k_neighbors']
