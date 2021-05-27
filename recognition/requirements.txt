@@ -7,7 +7,7 @@ certifi==2020.12.5
 chardet==4.0.0
 cycler==0.10.0
 decorator==4.4.2
-faiss==1.7.0
+faiss-cpu==1.7.0
 flatbuffers==1.12
 gast==0.3.3
 google-auth==1.30.0
@@ -31,7 +31,7 @@ Markdown==3.3.4
 matplotlib==3.4.1
 mccabe==0.6.1
 mkl-fft==1.3.0
-mkl-random==1.1.1
+mkl-random==1.2.1
 mkl-service==2.3.0
 mtcnn==0.1.0
 numpy==1.19.5
@@ -40,18 +40,18 @@ opencv-python==4.5.1.48
 opt-einsum==3.3.0
 pandas==1.2.4
 parso==0.8.1
-pexpect @ file:///tmp/build/80754af9/pexpect_1605563209008/work
+pexpect #@ file:///tmp/build/80754af9/pexpect_1605563209008/work
 pickleshare==0.7.5
 Pillow==8.2.0
 prompt-toolkit==3.0.10
 protobuf==3.15.8
-ptyprocess @ file:///tmp/build/80754af9/ptyprocess_1609355006118/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
+ptyprocess #@ file:///tmp/build/80754af9/ptyprocess_1609355006118/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 Pygments==2.7.4
 pylint==2.6.0
 pyparsing==2.4.7
-python-dateutil @ file:///home/ktietz/src/ci/python-dateutil_1611928101742/work
+python-dateutil #@ file:///home/ktietz/src/ci/python-dateutil_1611928101742/work
 pytz==2021.1
 PyYAML==5.4.1
 pyzmq==21.0.0
@@ -59,7 +59,7 @@ requests==2.25.1
 requests-oauthlib==1.3.0
 rsa==4.7.2
 scipy==1.6.3
-six @ file:///tmp/build/80754af9/six_1605205327372/work
+six #@ file:///tmp/build/80754af9/six_1605205327372/work
 tensorboard==2.5.0
 tensorboard-data-server==0.6.0
 tensorboard-plugin-wit==1.8.0

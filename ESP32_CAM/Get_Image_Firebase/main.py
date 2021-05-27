@@ -5,7 +5,8 @@ from firebase_admin import db
 import time
 import logging
 import urllib.request
-
+import os
+import glob
 
 class FirebaseUtility:
     def __init__(self, json_path, db_url):
@@ -55,39 +56,50 @@ class FirebaseUtility:
             return list(dictVal.keys()), list(dictVal.values())
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
+path = os.path.abspath(__file__)
+json_path = os.path.join(path.rsplit(os.path.sep, 2)[0],'esp32-camera-54eb5-firebase-adminsdk-aqkcs-9987fc710d.json')
+db_url = 'https://esp32-camera-54eb5-default-rtdb.firebaseio.com'
 
-    json_path = 'esp32-camera-66eeb-firebase-adminsdk-63n28-c778ee7859.json'
-    db_url = 'https://esp32-camera-66eeb-default-rtdb.firebaseio.com'
+IMG_DIR = os.path.join(path.rsplit(os.path.sep, 2)[0],'images')
 
-    fb = FirebaseUtility(json_path, db_url)
-    fb.connectFirebase()
-    # flag = True
-    isRunning = False
-    while True:
-        fb.sendRequireSignal()
-        time.sleep(5)
-        key, val = fb.getString64FromFirebase()
+fb = FirebaseUtility(json_path, db_url)
+fb.connectFirebase()
+# flag = True
+isRunning = False
 
-        last_str = fb.get_last_string()
-        if last_str == "":
+print('Sending signal to camera...')
+fb.sendRequireSignal(flag=False)
+print('Connected to Camera!')
+
+
+def listen():
+    print('Listening...',end='')
+    fb.sendRequireSignal()
+    key, val = fb.getString64FromFirebase()
+
+    last_str = fb.get_last_string()
+    img_name = "img_{}.jpg".format(len(glob.glob(os.path.join(IMG_DIR,'*.*'))))
+    img_name = os.path.join(IMG_DIR,img_name)
+    
+    if last_str == "":
+        fb.set_last_string(val[0])
+        # print(fb.get_last_string())
+        # Convert to JPG and save
+        urllib.request.urlretrieve(val[0], img_name)
+
+    elif last_str != "":
+        if last_str != val[0]:
             fb.set_last_string(val[0])
             # print(fb.get_last_string())
             # Convert to JPG and save
-            urllib.request.urlretrieve(val[0], key[0][1:] + ".jpg")
+            urllib.request.urlretrieve(val[0], img_name)
+        else:
+            # Set flag to 0, stop the program, update later.
+            pass
 
-        elif last_str != "":
-            if last_str != val[0]:
-                fb.set_last_string(val[0])
-                # print(fb.get_last_string())
-                # Convert to JPG and save
-                urllib.request.urlretrieve(val[0], key[0][1:] + ".jpg")
-            else:
-                # Set flag to 0, stop the program, update later.
-                pass
-
-        fb.sendRequireSignal(flag=False)
-        break
+    fb.sendRequireSignal(flag=False)
+    print('Done!')
 
 
 
