@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.securitycamera.R;
 import com.example.securitycamera.data.model.UserInfo;
 import com.example.securitycamera.data.model.UserInfoAdapter;
-import com.example.securitycamera.ui.MainActivity;
 import com.example.securitycamera.viewmodel.HistoryViewModel;
 
 import java.util.ArrayList;
