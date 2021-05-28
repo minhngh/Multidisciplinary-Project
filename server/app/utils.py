@@ -15,6 +15,8 @@ from firebase_admin import messaging
 from recognizer import FaceRecognizer
 face_recognizer = FaceRecognizer()
 
+from fcm import notify
+
 
 import threading
 class CautionThread(threading.Thread):
@@ -40,10 +42,9 @@ class CautionThread(threading.Thread):
                     print(img_name)
                     if debug or (face_recognizer.recognize(img_name) != owner):
                         #TODO: notify, turn-on speaker
-                        # mess = messaging.AndroidNotification(title='Security Camera',body='Phát hiện người lạ!!!')
-                        # mess.send()
+                        notify("Unknown")
                         self.mqtt.send__speaker_data(1001)
-                    else: print("owner")
+                    else: notify(owner)
 
             is_killed = self._kill.wait(self._interval) 
             if is_killed: 
