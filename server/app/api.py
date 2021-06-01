@@ -131,3 +131,10 @@ async def normal(user: Normal = Body(...)):
 
     caution_thread.kill()
     return {"turn-off-caution":"successful"}
+
+@app.post("/get-log")
+async def get_log(user: GetLog = Body(...)):
+    #TODO: check token
+    log = read_log(None,None)
+    print(log)
+    return {"log": str(log)}

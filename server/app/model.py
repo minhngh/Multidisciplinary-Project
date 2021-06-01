@@ -26,3 +26,8 @@ class Caution(BaseModel):
     access_token: str = Field(...)
 class Normal(BaseModel):
     access_token: str = Field(...)
+
+class GetLog(BaseModel):
+    access_token: str = Field(...)
+    start_time: str = Field(...)
+    end_time: str = Field(...)
