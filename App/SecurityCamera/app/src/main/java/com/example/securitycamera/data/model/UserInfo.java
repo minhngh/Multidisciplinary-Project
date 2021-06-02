@@ -1,6 +1,8 @@
 package com.example.securitycamera.data.model;
 
-public class UserInfo {
+import java.io.Serializable;
+
+public class UserInfo implements Serializable {
     private String type;
     private String time;
     private int imageId;

@@ -2,6 +2,7 @@ package com.example.securitycamera.data.remote;
 
 import com.example.securitycamera.data.model.Token;
 import com.example.securitycamera.data.model.User;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -20,4 +21,8 @@ public interface MainApiService {
     Call<JsonObject> mute(@Body Token token);
     @POST("/unmute")
     Call<JsonObject> unmute(@Body Token token);
+
+    @POST("/get-log")
+    @Headers({"Accept: application/json"})
+    Call<JsonArray> getImageHistory(String token);
 }
