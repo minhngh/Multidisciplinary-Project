@@ -1,5 +1,8 @@
 package com.example.securitycamera.viewmodel;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,6 +13,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.securitycamera.data.model.Result;
 import com.example.securitycamera.data.model.User;
 import com.example.securitycamera.data.model.UserInfo;
+import com.example.securitycamera.data.model.UserInfoConvert;
 import com.example.securitycamera.data.remote.MainApiUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -46,11 +50,13 @@ public class HistoryViewModel extends ViewModel {
                 if (response.code() == 200){
                     JsonArray jArray = (JsonArray) response.body();
                     Gson gson = new Gson();
-                    UserInfo[] userInfos = gson.fromJson(jArray, UserInfo[].class);
+                    UserInfoConvert[] userInfos = gson.fromJson(jArray, UserInfoConvert[].class);
 
                     for(int i = 0; i< userInfos.length; i++)
                     {
-                        listUserInfo.add(userInfos[i]);
+                        byte[] decodedString = Base64.decode(userInfos[i].getImage(), Base64.DEFAULT);
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                        listUserInfo.add(new UserInfo(userInfos[i].getType(), userInfos[i].getTime(), decodedByte));
                     }
                 }
                 else{

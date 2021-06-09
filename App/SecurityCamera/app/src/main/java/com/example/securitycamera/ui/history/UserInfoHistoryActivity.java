@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DownloadManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.securitycamera.R;
 import com.example.securitycamera.data.model.UserInfo;
+import com.example.securitycamera.data.model.UserInfoConvert;
 
 public class UserInfoHistoryActivity extends AppCompatActivity {
 
@@ -27,11 +31,17 @@ public class UserInfoHistoryActivity extends AppCompatActivity {
         findViews();
         Intent intent = getIntent();
 
-        UserInfo userInfo = (UserInfo) intent.getSerializableExtra("user_info");
+        UserInfoConvert userInfo = (UserInfoConvert) intent.getSerializableExtra("user_info");
         if(userInfo != null)
         {
-            imgUser.setImageResource(userInfo.getImageId());
-            txtUserTime.setText("Time: \t" + userInfo.getTime());
+            byte[] decodedString = Base64.decode(userInfo.getImage(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            imgUser.setImageBitmap(decodedByte);
+            String time = userInfo.getTime();
+            String[] time_infos = time.split(",");
+            String time_display = time_infos[0] + "\n            " + time_infos[1];
+
+            txtUserTime.setText("Time: \t" + time_display);
             txtUserType.setText("Type: \t" + userInfo.getType());
         }
 

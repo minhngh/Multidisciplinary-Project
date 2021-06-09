@@ -35,10 +35,10 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_history);
-        Mapping();
+        //Mapping();
 
-        adapter = new UserInfoAdapter(this, R.layout.user_info_item, userInfoList);
-        listViewHistory.setAdapter(adapter);
+        //adapter = new UserInfoAdapter(this, R.layout.user_info_item, userInfoList);
+       // listViewHistory.setAdapter(adapter);
 
 
 //        ArrayList<String> arrayList = new ArrayList<String>();
@@ -51,13 +51,13 @@ public class HistoryActivity extends AppCompatActivity {
 //        listViewHistory.setAdapter(adapter);
     }
 
-    private void Mapping()
-    {
-        textViewDateTime = (TextView) findViewById(R.id.textViewDateTime);
-        listViewHistory = (ListView) findViewById(R.id.listViewHistory);
-
-        userInfoList = new ArrayList<>();
-        userInfoList.add(new UserInfo("Guest", "13:50", R.drawable.nam2));
-        userInfoList.add(new UserInfo("Guest", "9:12", R.drawable.nu1));
-    }
+//    private void Mapping()
+//    {
+//        textViewDateTime = (TextView) findViewById(R.id.textViewDateTime);
+//        listViewHistory = (ListView) findViewById(R.id.listViewHistory);
+//
+//        userInfoList = new ArrayList<>();
+//        userInfoList.add(new UserInfo("Guest", "13:50", R.drawable.nam2));
+//        userInfoList.add(new UserInfo("Guest", "9:12", R.drawable.nu1));
+//    }
 }
