@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.example.securitycamera.data.model.Token;
 import com.example.securitycamera.data.model.User;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -12,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainApiUtils {
     private MainApiUtils(){}
-    public static final String BASE_URL = "http://192.168.1.6:8000";
+    public static final String BASE_URL = "http://192.168.1.102:8000";
     private static MainApiService apiService = new Retrofit.Builder()
                                             .baseUrl(BASE_URL)
                                             .addConverterFactory(GsonConverterFactory.create())
@@ -47,5 +48,9 @@ public class MainApiUtils {
     }
     public Call<JsonObject>turnOffCaution(String accessToken){
         return apiService.turnOffCaution(new Token(accessToken));
+
+    public Call<JsonArray> getImageHistory(String token)
+    {
+        return apiService.getImageHistory(token);
     }
 }

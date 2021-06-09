@@ -4,19 +4,19 @@ import android.graphics.Bitmap;
 
 import java.io.Serializable;
 
-public class UserInfo implements Serializable {
+public class UserInfoConvert implements Serializable {
     private String type;
     private String time;
-    private Bitmap image;
+    private String image;
 
-    public UserInfo()
+    public UserInfoConvert()
     {
         type = "";
-        image = null;
+        image = "";
         time = "";
     }
 
-    public UserInfo(String type, String time, Bitmap image) {
+    public UserInfoConvert(String type, String time, String image) {
         this.type = type;
         this.time = time;
         this.image = image;
@@ -30,11 +30,11 @@ public class UserInfo implements Serializable {
         this.type = type;
     }
 
-    public Bitmap getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Bitmap image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -46,7 +46,3 @@ public class UserInfo implements Serializable {
         this.time = time;
     }
 }
-
-
-
-

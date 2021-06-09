@@ -39,21 +39,39 @@ public class UserInfoAdapter extends BaseAdapter
         return 0;
     }
 
+    private class ViewHolder
+    {
+        TextView txtType;
+        TextView txtTime;
+        ImageView imgUser;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        convertView = inflater.inflate(layout, null);
+        ViewHolder viewHolder = new ViewHolder();
 
-        TextView txtType = (TextView) convertView.findViewById(R.id.textViewType);
-        TextView txtTime = (TextView) convertView.findViewById(R.id.textViewTime);
-        ImageView imgUser = (ImageView) convertView.findViewById(R.id.imageViewUser);
+        if(convertView == null)
+        {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(layout, null);
+
+            viewHolder.txtType = (TextView) convertView.findViewById(R.id.textViewType);
+            viewHolder.txtTime = (TextView) convertView.findViewById(R.id.textViewTime);
+            viewHolder.imgUser = (ImageView) convertView.findViewById(R.id.imageViewUser);
+
+            convertView.setTag(viewHolder);
+        }
+
+        viewHolder = (ViewHolder) convertView.getTag();
 
         UserInfo userInfo = arrUserInfo.get(position);
+        String time = userInfo.getTime();
+        String[] time_infos = time.split(",");
 
-        txtType.setText(userInfo.getType());
-        txtTime.setText(userInfo.getTime());
-        imgUser.setImageResource(userInfo.getImageId());
+        viewHolder.txtType.setText(userInfo.getType());
+        viewHolder.txtTime.setText(time_infos[0]);
+        viewHolder.imgUser.setImageBitmap(userInfo.getImage());
         return convertView;
     }
 }
