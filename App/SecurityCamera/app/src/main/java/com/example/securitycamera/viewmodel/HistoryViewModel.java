@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.securitycamera.data.model.DoorState;
 import com.example.securitycamera.data.model.Result;
 import com.example.securitycamera.data.model.User;
 import com.example.securitycamera.data.model.UserInfo;
@@ -17,10 +18,12 @@ import com.example.securitycamera.data.model.UserInfoConvert;
 import com.example.securitycamera.data.remote.MainApiUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -30,6 +33,7 @@ import retrofit2.Response;
 public class HistoryViewModel extends ViewModel {
     private MainApiUtils mainApiUtils = MainApiUtils.getInstance();
     private MutableLiveData<String> mText;
+    private MutableLiveData<ArrayList<UserInfoConvert>> listUserInfos = new MutableLiveData<>();
 
     public HistoryViewModel() {
         mText = new MutableLiveData<>();
@@ -40,24 +44,27 @@ public class HistoryViewModel extends ViewModel {
         return mText;
     }
 
-    public ArrayList<UserInfo> getImageHistory(String token)
+    public void getImageHistory(String access_token, String start_time, String end_time)
     {
-        Call<JsonArray> call = mainApiUtils.getImageHistory(token);
-        ArrayList<UserInfo> listUserInfo = new ArrayList<UserInfo>();
-        call.enqueue(new Callback<JsonArray>() {
+        Call<JsonObject> call = mainApiUtils.getImageHistory(access_token, start_time, end_time);
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.code() == 200){
-                    JsonArray jArray = (JsonArray) response.body();
+                    JsonObject jAObject = (JsonObject) response.body();
+                    String info = jAObject.get("log").toString();
+                    info = info.substring(1, info.length() - 1);
                     Gson gson = new Gson();
-                    UserInfoConvert[] userInfos = gson.fromJson(jArray, UserInfoConvert[].class);
+                    UserInfoConvert[] userInfos = gson.fromJson(info, UserInfoConvert[].class);
 
+                    ArrayList<UserInfoConvert> temp = new ArrayList<>();
+                    Log.d("data", info);
                     for(int i = 0; i< userInfos.length; i++)
                     {
-                        byte[] decodedString = Base64.decode(userInfos[i].getImage(), Base64.DEFAULT);
-                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                        listUserInfo.add(new UserInfo(userInfos[i].getType(), userInfos[i].getTime(), decodedByte));
+                        temp.add(userInfos[i]);
                     }
+                    listUserInfos.setValue(temp);
+
                 }
                 else{
                     Log.d("errorImage", "Không nhận được ảnh!");
@@ -65,11 +72,15 @@ public class HistoryViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d("errorImage", "Không nhận được ảnh!");
             }
+
         });
 
-        return listUserInfo;
+    }
+
+    public MutableLiveData<ArrayList<UserInfoConvert>> getListUserInfos() {
+        return listUserInfos;
     }
 }

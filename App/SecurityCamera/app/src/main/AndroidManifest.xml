@@ -23,6 +23,10 @@
         </activity>
         <activity
             android:name=".ui.login.LoginActivity"/>
+
+        <activity
+            android:name=".ui.history.UserInfoHistoryActivity"/>
+
         <activity
             android:name=".ui.slashscreen.SlashScreenActivity"
             android:theme="@style/Theme.SlashScreen">

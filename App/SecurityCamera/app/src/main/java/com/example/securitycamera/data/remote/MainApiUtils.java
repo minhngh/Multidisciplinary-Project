@@ -2,6 +2,7 @@ package com.example.securitycamera.data.remote;
 
 import androidx.annotation.NonNull;
 
+import com.example.securitycamera.data.model.ImageInfo;
 import com.example.securitycamera.data.model.Token;
 import com.example.securitycamera.data.model.User;
 import com.google.gson.JsonArray;
@@ -46,11 +47,12 @@ public class MainApiUtils {
     public Call<JsonObject> turnOnCaution(String accessToken){
         return apiService.turnOnCaution(new Token(accessToken));
     }
-    public Call<JsonObject>turnOffCaution(String accessToken){
+    public Call<JsonObject>turnOffCaution(String accessToken) {
         return apiService.turnOffCaution(new Token(accessToken));
+    }
 
-    public Call<JsonArray> getImageHistory(String token)
+    public Call<JsonObject> getImageHistory(String access_token, String start_time, String end_time)
     {
-        return apiService.getImageHistory(token);
+        return apiService.getImageHistory(new ImageInfo(access_token, start_time, end_time));
     }
 }

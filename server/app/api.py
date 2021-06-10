@@ -109,3 +109,32 @@ async def unmute(user: Unmute = Body(...)):
     mqtt.send__speaker_data(1000)
     return {"unmute":"successful"}
 
+#turn_on_thread = KillableThread(target=turn_on,args=[turn_on_thread,mqtt])
+caution_thread = None
+
+@app.post("/turn-on-caution")
+async def caution(user: Caution = Body(...)):
+    #TODO: check token
+
+    if get_mode() == 'CAUTION':
+        return {"turn-on-caution":"Mode is already CAUTION, do nothing"}
+    
+    global caution_thread
+    caution_thread = CautionThread(mqtt=mqtt)
+    caution_thread.start()
+    return {"turn-on-caution":"successful"}
+    
+
+@app.post("/turn-off-caution")
+async def normal(user: Normal = Body(...)):
+    #TODO: check token
+
+    caution_thread.kill()
+    return {"turn-off-caution":"successful"}
+
+@app.post("/get-log")
+async def get_log(user: GetLog = Body(...)):
+    #TODO: check token
+    log = read_log(None,None)
+    print(log)
+    return {"log": str(log)}

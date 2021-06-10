@@ -50,7 +50,7 @@ public class HistoryFragment extends Fragment {
     TextView textViewDateTime;
     ArrayList<UserInfo> userInfoList;
     UserInfoAdapter adapter;
-    ArrayList<UserInfoConvert> listDemo = new ArrayList<>();
+    ArrayList<UserInfoConvert> listUserConvert = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -71,29 +71,38 @@ public class HistoryFragment extends Fragment {
         String date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
         textViewDateTime.setText(date);
 
-        Test();
 
         userInfoList = new ArrayList<>();
-//        String token = "RANDOM_STRING";
-//        userInfoList = getImageHistory(token);
+        String token = "RANDOM_STRING";
+        String start_time = "02/06/2021";
+        String end_time = "02/06/2021";
+        historyViewModel.getImageHistory(token, start_time, end_time);
+
+        historyViewModel.getListUserInfos().observe(getViewLifecycleOwner(), listConvert ->
+        {
+            userInfoList = UserInfoConvertToUserInfo(listConvert);
+            listUserConvert = listConvert;
+
+            adapter = new UserInfoAdapter(requireContext(), R.layout.user_info_item, userInfoList);
+
+            listViewHistory.setAdapter(adapter);
+
+            listViewHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(getActivity(), UserInfoHistoryActivity.class);
+                    intent.putExtra("user_info", (Serializable) listUserConvert.get(position));
+                    startActivity(intent);
+                }
+            });
+        });
 //        userInfoList.add(new UserInfo("Guest", "13:50", decodedByte));
 //        userInfoList.add(new UserInfo("Guest", "9:12", decodedByte));
-        byte[] decodedString = Base64.decode(listDemo.get(0).getImage(), Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        userInfoList.add(new UserInfo(listDemo.get(0).getType(), listDemo.get(0).getTime(), decodedByte));
 
-        adapter = new UserInfoAdapter(requireContext(), R.layout.user_info_item, userInfoList);
 
-        listViewHistory.setAdapter(adapter);
 
-        listViewHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), UserInfoHistoryActivity.class);
-                intent.putExtra("user_info", (Serializable) listDemo.get(position));
-                startActivity(intent);
-            }
-        });
+
+
 
 
         return root;
@@ -105,45 +114,57 @@ public class HistoryFragment extends Fragment {
         listViewHistory = (ListView) root.findViewById(R.id.listViewHistory);
     }
 
-    private ArrayList<UserInfo> getImageHistory(String token)
+
+
+
+    private ArrayList<UserInfo> UserInfoConvertToUserInfo(ArrayList<UserInfoConvert> listUserConvert)
     {
-        return historyViewModel.getImageHistory(token);
-    }
+        ArrayList<UserInfo> userInfoList = new ArrayList<>();
 
-    private void Test(){
-        AssetManager assetManager = getContext().getAssets();
-
-        InputStream input;
-        try {
-            input = assetManager.open("data.json");
-
-            int size = input.available();
-            byte[] buffer = new byte[size];
-            input.read(buffer);
-            input.close();
-
-            // byte buffer into a string
-            String text = new String(buffer);
-            Gson gson = new Gson();
-
-
-            UserInfoConvert[] userInfos = gson.fromJson(text, UserInfoConvert[].class);
-
-            String data = "";
-            for(int i = 0; i< userInfos.length; i++)
-            {
-                listDemo.add(userInfos[i]);
-            }
-
-
-
-
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        for(int i = 0; i < listUserConvert.size(); i++)
+        {
+            byte[] decodedString = Base64.decode(listUserConvert.get(i).getImage(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            userInfoList.add(new UserInfo(listUserConvert.get(i).getType(), listUserConvert.get(i).getTime(), decodedByte));
         }
+
+        return userInfoList;
     }
+
+//    private void Test(){
+//        AssetManager assetManager = getContext().getAssets();
+//
+//        InputStream input;
+//        try {
+//            input = assetManager.open("data.json");
+//
+//            int size = input.available();
+//            byte[] buffer = new byte[size];
+//            input.read(buffer);
+//            input.close();
+//
+//            // byte buffer into a string
+//            String text = new String(buffer);
+//            Gson gson = new Gson();
+//
+//
+//            UserInfoConvert[] userInfos = gson.fromJson(text, UserInfoConvert[].class);
+//
+//            String data = "";
+//            for(int i = 0; i< userInfos.length; i++)
+//            {
+//                listDemo.add(userInfos[i]);
+//            }
+//
+//
+//
+//
+//
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//    }
 }
 
 

@@ -1,5 +1,6 @@
 package com.example.securitycamera.data.remote;
 
+import com.example.securitycamera.data.model.ImageInfo;
 import com.example.securitycamera.data.model.Token;
 import com.example.securitycamera.data.model.User;
 import com.google.gson.JsonArray;
@@ -28,5 +29,5 @@ public interface MainApiService {
 
     @POST("/get-log")
     @Headers({"Accept: application/json"})
-    Call<JsonArray> getImageHistory(String token);
+    Call<JsonObject> getImageHistory(@Body ImageInfo imgInfo);
 }
