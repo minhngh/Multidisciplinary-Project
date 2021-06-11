@@ -8,18 +8,29 @@ from datetime import datetime, date
 import base64
 import json
 
+import mysql.connector
+import yaml
+
+path = os.path.abspath(__file__)
+with open(os.path.join(path.rsplit(os.path.sep, 2)[0], 'config.yml'), 'r') as f:
+    config = yaml.load(f, Loader = yaml.FullLoader)
+
+my_db = mysql.connector.connect(
+    host = config['host'],
+    user = config['user'],
+    password = config['password'],
+    database = config['database']
+)
 
 #Global variable to control system's mode
 mode = 'NORMAL' #NORMAL/CAUTION
 owner = 'LeLong'
 path = os.path.abspath(__file__)
 IMG_DIR = os.path.join(path.rsplit(os.path.sep, 3)[0], 'ESP32_CAM/images')
-LOG_DIR = os.path.join(path.rsplit(os.path.sep, 1)[0], 'log')
 
 #mkdir if not exits
 try:
     os.makedirs(IMG_DIR)
-    os.makedirs(LOG_DIR)
 except:
     pass
 
@@ -53,12 +64,12 @@ class CautionThread(threading.Thread):
                 if pre_number_of_img != post_number_of_img:
                     img_name = os.path.join(IMG_DIR,'img_{}.jpg'.format(post_number_of_img-1))
                     if debug or (face_recognizer.recognize(img_name) != owner):
-                        notify("Unknown")
+                        # notify("Unknown")
                         self.mqtt.send__speaker_data(1001)
-                        write_log(LOG_DIR,img_name,"unknown")
+                        write_log(img_name,"unknown")
                     else: 
                         notify(owner)
-                        log(LOG_PATH,img_name,owner)
+                        write_log(img_name,owner)
 
             is_killed = self._kill.wait(self._interval) 
             if is_killed: 
@@ -79,27 +90,45 @@ class CautionThread(threading.Thread):
 def get_mode():
     return mode
 
-def write_log(logdir, img, label):
+def write_log(img, label):
     now = datetime.now()
+    timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+    image = img.split('/')[-1]
+    type = label
 
-    with open(img, "rb") as img_file:
-        encoded = base64.b64encode(img_file.read())
+    my_cursor = my_db.cursor()
+
+    sql = "INSERT INTO Log(timestamp,image,type) VALUES(%s,%s,%s)"
+    param = (timestamp,image,type)
+
+    try:
+        my_cursor.execute(sql, param)
+        my_db.commit()
+    except Exception as e:
+        raise e
     
-    new_log = {"image": encoded.decode("utf-8"), "type":label, "time": now.strftime("%H:%M:%S, %d/%m/%Y")}
-
-    #mkdir if not exist
-    try: os.makedirs(os.path.join(logdir,now.strftime("%d-%m-%Y")))
-    except: pass
-
-    logfile = now.strftime("%d-%m-%Y/%H:%M:%S.json")
-    logfile = os.path.join(logdir,logfile)
-    with open(logfile, "w") as file:
-        json.dump(new_log, file)
 
 def read_log(start_time, end_time):
-    #TODO: get log from start_time to end_time
-    result = [] 
-    for logfile in glob.glob(os.path.join(LOG_DIR,"*/*.json")):
-        with open(logfile,"r") as f:
-            result.append(json.load(f))
-    return result
+    sql = None
+    if (start_time == '-1') and (end_time == '-1'): sql = "SELECT * FROM Log"
+    elif (start_time != '-1') and (end_time != '-1'): 
+        start = '-'.join(start_time.split('/')[::-1]) #convert from dd/mm/yyyy to yyyy-mm-dd
+        end = '-'.join(end_time.split('/')[::-1])
+        sql = f"SELECT * FROM Log WHERE timestamp > {start} AND timestamp < {end}"
+    
+    my_cursor = my_db.cursor()
+    try:
+        result = []
+        my_cursor.execute(sql)
+        mydb_response = my_cursor.fetchall()
+        for item in mydb_response:
+            timestamp, image, type = item
+            with open(os.path.join(IMG_DIR,image), "rb") as img_file:
+                encoded = base64.b64encode(img_file.read())
+            new_log = {"image": encoded.decode("utf-8"), "type":type, "time": timestamp.strftime("%H:%M:%S, %d/%m/%Y")}
+            result.append(new_log)
+        return result
+    except Exception as e:
+        raise e
+
+    #{"log":[{'image':'...', 'type':'...', 'time':'...}, {}, {}]}

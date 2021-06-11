@@ -135,6 +135,5 @@ async def normal(user: Normal = Body(...)):
 @app.post("/get-log")
 async def get_log(user: GetLog = Body(...)):
     #TODO: check token
-    log = read_log(None,None)
-    print(log)
+    log = read_log(user.start_time,user.end_time)
     return {"log": str(log)}
