@@ -1,5 +1,6 @@
 package com.example.securitycamera.ui.history;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -12,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,6 +42,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -51,6 +55,7 @@ public class HistoryFragment extends Fragment {
     ArrayList<UserInfo> userInfoList;
     UserInfoAdapter adapter;
     ArrayList<UserInfoConvert> listUserConvert = new ArrayList<>();
+    ImageButton imgDateTime;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -72,10 +77,18 @@ public class HistoryFragment extends Fragment {
         textViewDateTime.setText(date);
 
 
+        imgDateTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChooseDate();
+            }
+        });
+
+
         userInfoList = new ArrayList<>();
-        String token = "RANDOM_STRING";
-        String start_time = "02/06/2021";
-        String end_time = "02/06/2021";
+        String token = "1";
+        String start_time = "-1";
+        String end_time = "-1";
         historyViewModel.getImageHistory(token, start_time, end_time);
 
         historyViewModel.getListUserInfos().observe(getViewLifecycleOwner(), listConvert ->
@@ -112,6 +125,7 @@ public class HistoryFragment extends Fragment {
     {
         textViewDateTime = (TextView) root.findViewById(R.id.textViewDateTime);
         listViewHistory = (ListView) root.findViewById(R.id.listViewHistory);
+        imgDateTime = (ImageButton) root.findViewById(R.id.imageDateTime);
     }
 
 
@@ -129,6 +143,26 @@ public class HistoryFragment extends Fragment {
         }
 
         return userInfoList;
+    }
+
+    private void ChooseDate()
+    {
+        Calendar calendar = Calendar.getInstance();
+        int _day = calendar.get(Calendar.DATE);
+        int _month = calendar.get(Calendar.MONTH);
+        int _year = calendar.get(Calendar.YEAR);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                String infoDate = Integer.toString(dayOfMonth) + "/" + Integer.toString(month + 1) + "/" + Integer.toString(year);
+                textViewDateTime.setText(infoDate);
+                String token = "1";
+                String start_time = infoDate;
+                String end_time = infoDate;
+                historyViewModel.getImageHistory(token, start_time, end_time);
+            }
+        }, _year, _month, _day);
+        datePickerDialog.show();
     }
 
 //    private void Test(){
