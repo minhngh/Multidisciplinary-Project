@@ -34,7 +34,7 @@ try:
 except:
     pass
 
-from Get_Image_Firebase.main import listen
+# from Get_Image_Firebase.main import listen
 from firebase_admin import messaging
 from recognizer import FaceRecognizer
 face_recognizer = FaceRecognizer()
@@ -114,8 +114,11 @@ def read_log(start_time, end_time):
     elif (start_time != '-1') and (end_time != '-1'): 
         start = '-'.join(start_time.split('/')[::-1]) #convert from dd/mm/yyyy to yyyy-mm-dd
         end = '-'.join(end_time.split('/')[::-1])
-        sql = f"SELECT * FROM Log WHERE timestamp > {start} AND timestamp < {end}"
-    
+        if start != end:
+            sql = f"SELECT * FROM Log WHERE timestamp > '{start}' AND timestamp < '{end}'"
+        else:
+            sql = f"SELECT * FROM Log WHERE DATE(timestamp) = '{start}'"
+    print(sql)
     my_cursor = my_db.cursor()
     try:
         result = []
