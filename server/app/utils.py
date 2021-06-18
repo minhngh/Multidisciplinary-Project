@@ -68,7 +68,7 @@ class CautionThread(threading.Thread):
                         self.mqtt.send__speaker_data(1001)
                         write_log(img_name,"unknown")
                     else: 
-                        notify(owner)
+                        # notify(owner)
                         write_log(img_name,owner)
 
             is_killed = self._kill.wait(self._interval) 
@@ -125,10 +125,10 @@ def read_log(start_time, end_time):
         my_cursor.execute(sql)
         mydb_response = my_cursor.fetchall()
         for item in mydb_response:
-            timestamp, image, type = item
+            timestamp, image, type, id = item
             with open(os.path.join(IMG_DIR,image), "rb") as img_file:
                 encoded = base64.b64encode(img_file.read())
-            new_log = {"image": encoded.decode("utf-8"), "type":type, "time": timestamp.strftime("%H:%M:%S, %d/%m/%Y")}
+            new_log = {"id":id, "image": encoded.decode("utf-8"), "type":type, "time": timestamp.strftime("%H:%M:%S, %d/%m/%Y")}
             result.append(new_log)
         return result
     except Exception as e:

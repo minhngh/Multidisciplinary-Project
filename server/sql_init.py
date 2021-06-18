@@ -69,7 +69,15 @@ if __name__ == "__main__":
     my_cursor.execute(sql)
 
     sql = """
-        INSERT INTO Log VALUES
+        alter table Log
+        add
+            id int PRIMARY KEY AUTO_INCREMENT
+    """
+    my_cursor.execute(sql)
+
+
+    sql = """
+        INSERT INTO Log(timestamp, image, type) VALUES
             ('2021-06-01 01:22:23','img_0.jpg','unknown'),
             ('2021-06-12 10:40:31','img_1.jpg','unknown')
     """
