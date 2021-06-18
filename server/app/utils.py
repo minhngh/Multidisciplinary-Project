@@ -34,7 +34,7 @@ try:
 except:
     pass
 
-# from Get_Image_Firebase.main import listen
+from Get_Image_Firebase.main import listen
 from firebase_admin import messaging
 from recognizer import FaceRecognizer
 face_recognizer = FaceRecognizer()
@@ -135,3 +135,16 @@ def read_log(start_time, end_time):
         raise e
 
     #{"log":[{'image':'...', 'type':'...', 'time':'...}, {}, {}]}
+
+def db_remove_log(id):
+    sql = None
+    if (id == "-1"): sql = "DELETE FROM Log"
+    else: sql = f"DELETE FROM Log WHERE id = {id}"
+
+    my_cursor = my_db.cursor()
+    try:
+        my_cursor.execute(sql)
+        my_db.commit()
+        return True
+    except Exception as e:
+        raise e

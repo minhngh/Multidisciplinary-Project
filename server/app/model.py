@@ -31,3 +31,7 @@ class GetLog(BaseModel):
     access_token: str = Field(...)
     start_time: str = Field(...)
     end_time: str = Field(...)
+
+class RemoveLog(BaseModel):
+    access_token: str = Field(...)
+    id: str = Field(...)

@@ -137,3 +137,13 @@ async def get_log(user: GetLog = Body(...)):
     #TODO: check token
     log = read_log(user.start_time,user.end_time)
     return {"log": str(log)}
+
+@app.post("/remove-log")
+async def remove_log(user: RemoveLog = Body(...)):
+    #TODO: check token
+    id = user.id
+    try:
+        db_remove_log(id)
+        return {"remove": "successful"}
+    except Exception as e:
+        return {"remove": str(e)}
