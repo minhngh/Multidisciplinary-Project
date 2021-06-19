@@ -3,6 +3,7 @@ package com.example.securitycamera.data.remote;
 import com.example.securitycamera.data.model.ImageInfo;
 import com.example.securitycamera.data.model.Token;
 import com.example.securitycamera.data.model.User;
+import com.example.securitycamera.data.model.UserInfoDeletion;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -30,4 +31,8 @@ public interface MainApiService {
     @POST("/get-log")
     @Headers({"Accept: application/json"})
     Call<JsonObject> getImageHistory(@Body ImageInfo imgInfo);
+
+    @POST("/remove-log")
+    @Headers({"Accept: application/json"})
+    Call<JsonObject> deleteUserInfo(@Body UserInfoDeletion userInfoDeletion);
 }

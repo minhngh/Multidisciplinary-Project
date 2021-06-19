@@ -5,18 +5,21 @@ import android.graphics.Bitmap;
 import java.io.Serializable;
 
 public class UserInfoConvert implements Serializable {
+    private int id;
     private String type;
     private String time;
     private String image;
 
     public UserInfoConvert()
     {
+        id = -1;
         type = "";
         image = "";
         time = "";
     }
 
-    public UserInfoConvert(String type, String time, String image) {
+    public UserInfoConvert(int id, String type, String time, String image) {
+        this.id = id;
         this.type = type;
         this.time = time;
         this.image = image;
@@ -44,5 +47,13 @@ public class UserInfoConvert implements Serializable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

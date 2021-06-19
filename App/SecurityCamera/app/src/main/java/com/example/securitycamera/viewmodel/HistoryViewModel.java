@@ -34,6 +34,7 @@ public class HistoryViewModel extends ViewModel {
     private MainApiUtils mainApiUtils = MainApiUtils.getInstance();
     private MutableLiveData<String> mText;
     private MutableLiveData<ArrayList<UserInfoConvert>> listUserInfos = new MutableLiveData<>();
+    private MutableLiveData<String> deleteResponse = new MutableLiveData<>();
 
     public HistoryViewModel() {
         mText = new MutableLiveData<>();
@@ -82,5 +83,33 @@ public class HistoryViewModel extends ViewModel {
 
     public MutableLiveData<ArrayList<UserInfoConvert>> getListUserInfos() {
         return listUserInfos;
+    }
+
+    public MutableLiveData<String> getDeleteResponse() {
+        return deleteResponse;
+    }
+
+    public void deleteUserInfo(String access_token, String id)
+    {
+        Call<JsonObject> call = mainApiUtils.deleteUserInfo(access_token, id);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.code() == 200){
+                    JsonObject jAObject = (JsonObject) response.body();
+                    String info = jAObject.get("remove").toString();
+                    deleteResponse.setValue(info);
+                }
+                else{
+                    Log.d("errorDelete", "Không xóa được thông tin!");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("errorImage", "Xóa thất bại!");
+            }
+
+        });
     }
 }

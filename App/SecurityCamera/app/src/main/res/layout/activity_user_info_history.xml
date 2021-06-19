@@ -7,6 +7,19 @@
     tools:context=".ui.history.UserInfoHistoryActivity">
 
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDeleteInfo"
+        android:layout_width="123dp"
+        android:layout_height="59dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/custom_button_user_info"
+        android:text="Delete"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnBack"
+        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="488dp"

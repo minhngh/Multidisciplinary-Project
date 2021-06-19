@@ -1,5 +1,6 @@
 package com.example.securitycamera.ui.history;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -57,6 +58,8 @@ public class HistoryFragment extends Fragment {
     ArrayList<UserInfoConvert> listUserConvert = new ArrayList<>();
     ImageButton imgDateTime;
 
+    int REQUEST_DELETE_CODE = 123;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         historyViewModel =
@@ -73,8 +76,8 @@ public class HistoryFragment extends Fragment {
         findViews(root);
 
         // Set TextView DateTime
-        String date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-        textViewDateTime.setText(date);
+        String currentDateTime = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        textViewDateTime.setText(currentDateTime);
 
 
         imgDateTime.setOnClickListener(new View.OnClickListener() {
@@ -87,8 +90,8 @@ public class HistoryFragment extends Fragment {
 
         userInfoList = new ArrayList<>();
         String token = "1";
-        String start_time = "-1";
-        String end_time = "-1";
+        String start_time = currentDateTime;
+        String end_time = currentDateTime;
         historyViewModel.getImageHistory(token, start_time, end_time);
 
         historyViewModel.getListUserInfos().observe(getViewLifecycleOwner(), listConvert ->
@@ -105,18 +108,13 @@ public class HistoryFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(getActivity(), UserInfoHistoryActivity.class);
                     intent.putExtra("user_info", (Serializable) listUserConvert.get(position));
-                    startActivity(intent);
+                    intent.putExtra("id_position", position);
+                    startActivityForResult(intent, REQUEST_DELETE_CODE);
                 }
             });
         });
 //        userInfoList.add(new UserInfo("Guest", "13:50", decodedByte));
 //        userInfoList.add(new UserInfo("Guest", "9:12", decodedByte));
-
-
-
-
-
-
 
         return root;
     }
@@ -128,8 +126,15 @@ public class HistoryFragment extends Fragment {
         imgDateTime = (ImageButton) root.findViewById(R.id.imageDateTime);
     }
 
-
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == REQUEST_DELETE_CODE && resultCode == Activity.RESULT_OK && data != null)
+        {
+            int p = data.getIntExtra("position", 0);
+            userInfoList.remove(p);
+            adapter.notifyDataSetChanged();
+        }
+    }
 
     private ArrayList<UserInfo> UserInfoConvertToUserInfo(ArrayList<UserInfoConvert> listUserConvert)
     {
@@ -139,7 +144,7 @@ public class HistoryFragment extends Fragment {
         {
             byte[] decodedString = Base64.decode(listUserConvert.get(i).getImage(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            userInfoList.add(new UserInfo(listUserConvert.get(i).getType(), listUserConvert.get(i).getTime(), decodedByte));
+            userInfoList.add(new UserInfo(listUserConvert.get(i).getId(), listUserConvert.get(i).getType(), listUserConvert.get(i).getTime(), decodedByte));
         }
 
         return userInfoList;

@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.example.securitycamera.data.model.ImageInfo;
 import com.example.securitycamera.data.model.Token;
 import com.example.securitycamera.data.model.User;
+import com.example.securitycamera.data.model.UserInfoDeletion;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -14,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainApiUtils {
     private MainApiUtils(){}
-    public static final String BASE_URL = "http://192.168.1.54:8000";
+    public static final String BASE_URL = "http://192.168.1.26:8000";
     private static MainApiService apiService = new Retrofit.Builder()
                                             .baseUrl(BASE_URL)
                                             .addConverterFactory(GsonConverterFactory.create())
@@ -54,5 +55,10 @@ public class MainApiUtils {
     public Call<JsonObject> getImageHistory(String access_token, String start_time, String end_time)
     {
         return apiService.getImageHistory(new ImageInfo(access_token, start_time, end_time));
+    }
+
+    public Call<JsonObject> deleteUserInfo(String access_token, String id)
+    {
+        return apiService.deleteUserInfo(new UserInfoDeletion(access_token, id));
     }
 }
