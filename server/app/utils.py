@@ -128,7 +128,7 @@ def read_log(start_time, end_time):
             timestamp, image, type, id = item
             with open(os.path.join(IMG_DIR,image), "rb") as img_file:
                 encoded = base64.b64encode(img_file.read())
-            new_log = {"id":str(id), "image": encoded.decode("utf-8"), "type":type, "time": timestamp.strftime("%H:%M:%S, %d/%m/%Y")}
+            new_log = {"id":id, "image": encoded.decode("utf-8"), "type":type, "time": timestamp.strftime("%H:%M:%S, %d/%m/%Y")}
             result.append(new_log)
         return result
     except Exception as e:
