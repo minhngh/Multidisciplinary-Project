@@ -5,7 +5,7 @@ with open('config.yml') as f:
     config = yaml.load(f, Loader  = yaml.FullLoader)
 
 push_service = FCMNotification(api_key = config['FIREBASE_SERVER_API'])
-registration_id = config['DEVIDE-IDS']
+registration_id = config['DEVICE-IDS']
 
 def notify(message): 
     message_title = "SecurityCamera"

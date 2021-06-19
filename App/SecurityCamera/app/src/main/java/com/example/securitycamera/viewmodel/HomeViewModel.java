@@ -17,6 +17,10 @@ import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -129,7 +133,11 @@ public class HomeViewModel extends AndroidViewModel {
             turnOnCaution();
         }
     }
-
+    public String getCurrentDate(){
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
     public LiveData<Boolean> getIsAlertMode() {
         return isAlertMode;
     }

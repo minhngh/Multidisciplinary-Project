@@ -40,6 +40,7 @@ public class HomeFragment extends Fragment {
     private boolean mute = true;
     private RelativeLayout speakerArea;
     private TextView modeTv;
+    private TextView calendarTodayTv;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -94,6 +95,7 @@ public class HomeFragment extends Fragment {
                modeTv.setText("NORMAL");
            }
         });
+        calendarTodayTv.setText(homeViewModel.getCurrentDate());
         BroadcastReceiver messageReceiver = new BroadcastReceiver(){
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -139,5 +141,6 @@ public class HomeFragment extends Fragment {
         logoutIv = view.findViewById(R.id.iv_logout);
         flipModeIb = view.findViewById(R.id.ib_flip_mode);
         modeTv = view.findViewById(R.id.tv_mode_value);
+        calendarTodayTv = view.findViewById(R.id.tv_calendar_today);
     }
 }
