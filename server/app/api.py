@@ -11,7 +11,9 @@ from fastapi import  HTTPException
 import mysql.connector
 import os
 import sys
+
 from datetime import datetime
+
 import yaml
 
 from app.utils import *
@@ -145,13 +147,12 @@ async def change_schedule(change_log: ScheduleChangeLog) -> int:
 @app.post("/turn-on-caution")
 async def caution(user: Caution = Body(...)):
     #TODO: check token
-
-    # if get_mode() == 'CAUTION':
-    #     return {"turn-on-caution":"Mode is already CAUTION, do nothing"}
-    #
-    # global caution_thread
-    # caution_thread = CautionThread(mqtt=mqtt)
-    # caution_thread.start()
+    if get_mode() == 'CAUTION':
+        return {"turn-on-caution":"Mode is already CAUTION, do nothing"}
+    
+    global caution_thread
+    caution_thread = CautionThread(mqtt=mqtt)
+    caution_thread.start()
     return {"turn-on-caution":"successful"}
 
 

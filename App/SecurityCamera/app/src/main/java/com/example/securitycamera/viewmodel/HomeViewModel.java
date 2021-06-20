@@ -24,6 +24,7 @@ import retrofit2.Response;
 public class HomeViewModel extends AndroidViewModel {
     private MutableLiveData<DoorState> doorState = new MutableLiveData<>();
     private MainApiUtils mainApiService = MainApiUtils.getInstance();
+
     private AppPreferences preferenceManager;
     private MutableLiveData<Boolean> isAlertMode = new MutableLiveData<>();
 

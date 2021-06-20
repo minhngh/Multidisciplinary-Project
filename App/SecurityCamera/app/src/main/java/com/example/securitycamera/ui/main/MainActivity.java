@@ -10,7 +10,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.securitycamera.R;
 import com.example.securitycamera.service.FirebaseAlertService;
-import com.example.securitycamera.viewmodel.GetScheduleChangeViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {

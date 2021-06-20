@@ -7,7 +7,8 @@ if __name__ == "__main__":
     my_db = mysql.connector.connect(
         host="localhost",
         user=username,
-        password=password
+        password=password,
+        database='USER'
     )
 
     my_cursor = my_db.cursor()
