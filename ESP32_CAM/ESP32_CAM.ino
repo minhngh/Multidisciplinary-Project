@@ -30,7 +30,7 @@
 #define API_KEY "tNhiqwGKbWFmObXJQD0eXFeFUSClt7NsYRE1sIJ6"
 
 /* 3. Define the RTDB URL */
-#define DATABASE_URL "esp32-camera-66eeb-default-rtdb.firebaseio.com" //<databaseName>.firebaseio.com or <databaseName>.<region>.firebasedatabase.app
+#define DATABASE_URL "esp32-camera-54eb5-default-rtdb.firebaseio.com" //<databaseName>.firebaseio.com or <databaseName>.<region>.firebasedatabase.app
 
 
 //Define Firebase Data object

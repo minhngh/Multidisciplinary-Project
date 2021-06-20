@@ -22,4 +22,9 @@
         android:name="com.example.securitycamera.ui.setting.SettingFragment"
         android:label="@string/title_setting"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/navigation_schedule"
+        android:name="com.example.securitycamera.ui.schedule.ScheduleFragment"
+        android:label="Schedule"
+        tools:layout="@layout/fragment_schedule" />
 </navigation>

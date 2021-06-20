@@ -66,10 +66,12 @@ public class UserInfoAdapter extends BaseAdapter
         viewHolder = (ViewHolder) convertView.getTag();
 
         UserInfo userInfo = arrUserInfo.get(position);
+        String time = userInfo.getTime();
+        String[] time_infos = time.split(",");
 
         viewHolder.txtType.setText(userInfo.getType());
-        viewHolder.txtTime.setText(userInfo.getTime());
-        viewHolder.imgUser.setImageResource(userInfo.getImageId());
+        viewHolder.txtTime.setText(time_infos[0]);
+        viewHolder.imgUser.setImageBitmap(userInfo.getImage());
         return convertView;
     }
 }

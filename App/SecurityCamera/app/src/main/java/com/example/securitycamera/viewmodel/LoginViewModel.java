@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.securitycamera.data.local.PreferenceManager;
+import com.example.securitycamera.data.local.AppPreferences;
 import com.example.securitycamera.data.model.LoginDataState;
 import com.example.securitycamera.data.model.Result;
 import com.example.securitycamera.data.remote.MainApiUtils;
@@ -23,12 +23,12 @@ public class LoginViewModel extends AndroidViewModel {
     private MutableLiveData<LoginDataState> loginDataState = new MutableLiveData<>();
     private MutableLiveData<Result<Boolean>> loginResult = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLoggedin = new MutableLiveData<>();
-    private PreferenceManager preferenceManager;
+    private AppPreferences appPreferences;
     private MainApiUtils mainApiUtils = MainApiUtils.getInstance();
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
-        preferenceManager = new PreferenceManager(application);
+        appPreferences = new AppPreferences(application);
     }
 
     public void loginDataChange(String username, String password){
@@ -48,9 +48,13 @@ public class LoginViewModel extends AndroidViewModel {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.code() == 200){
+                if (response.code() == 200 && response.body() != null){
                     loginResult.postValue(new Result.Success<>(true));
-                    preferenceManager.saveLogInState();
+                    appPreferences.setLogInState();
+
+                    String accessToken = response.body().get("access_token").toString();
+                    accessToken = "Bearer " + accessToken.substring(1, accessToken.length()-1);
+                    appPreferences.setAccessToken(accessToken);
                 }
                 else{
                     loginResult.postValue(new Result.Error(new Exception(response.body() == null ? "Đã có lỗi. Vui lòng thử lại!" : response.body().get("access_token").toString())));
@@ -74,7 +78,7 @@ public class LoginViewModel extends AndroidViewModel {
     }
 
     public void checkLoggedin(){
-        isLoggedin.setValue(preferenceManager.getLogInState());
+        isLoggedin.setValue(appPreferences.getLogInState());
     }
     public LiveData<Boolean> isLoggedin() {
         return isLoggedin;

@@ -1,6 +1,9 @@
 package com.example.securitycamera.ui.login;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,11 +16,15 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.work.Data;
 
 import com.example.securitycamera.R;
+import com.example.securitycamera.data.local.AppPreferences;
 import com.example.securitycamera.data.model.Result;
 import com.example.securitycamera.ui.main.MainActivity;
 import com.example.securitycamera.viewmodel.LoginViewModel;
+
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     Button loginBtn;
@@ -87,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     private void findViews() {
         loginBtn = findViewById(R.id.btn_login);
         usernameEt = findViewById(R.id.et_username);

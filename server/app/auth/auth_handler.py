@@ -16,9 +16,9 @@ def token_response(token: bytes):
     }
 
 
-def sign_jwt(sth: str) -> Dict[str, bytes]:
+def sign_jwt(username: str) -> Dict[str, bytes]:
     payload = {
-        "data": sth,
+        "username": username,
         "exp": time.time() + 3600
     }
     token = jwt.encode(payload, __jwt_secret, algorithm=__jwt_algo)

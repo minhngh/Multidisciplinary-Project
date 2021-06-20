@@ -1,7 +1,10 @@
 
 package com.example.securitycamera.ui.home;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.securitycamera.R;
 import com.example.securitycamera.ui.login.LoginActivity;
@@ -29,15 +33,18 @@ public class HomeFragment extends Fragment {
     private ImageView doorIv;
     private ImageButton reloadDoorStateIb;
     private ImageButton speakerIb;
+    private ImageButton flipModeIb;
     private TextView warningText;
     private ImageView logoutIv;
     private TextView instructText;
     private boolean mute = true;
     private RelativeLayout speakerArea;
+    private TextView modeTv;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         return inflater.inflate(R.layout.fragment_home, container, false);
+
     }
 
     @Override
@@ -68,7 +75,10 @@ public class HomeFragment extends Fragment {
         speakerIb.setOnClickListener(v ->{
             toggleSpeakerState();
         });
-
+        homeViewModel.turnOnCaution();
+        flipModeIb.setOnClickListener(v -> {
+            homeViewModel.switchMode();
+        });
         logoutIv.setOnClickListener(v -> {
             homeViewModel.logout();
 
@@ -76,6 +86,25 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
             requireActivity().finish();
         });
+        homeViewModel.getIsAlertMode().observe(getViewLifecycleOwner(), isAlertMode -> {
+           if (isAlertMode){
+               modeTv.setText("ALERT");
+           }
+           else{
+               modeTv.setText("NORMAL");
+           }
+        });
+        BroadcastReceiver messageReceiver = new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String value = intent.getStringExtra("Face");
+                if (value.equals("Unknown")) {
+                    mute = true;
+                    toggleSpeakerState();
+                }
+            }
+        };
+        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(messageReceiver, new IntentFilter("FirebaseAlert"));
     }
 
     private void toggleSpeakerState() {
@@ -108,5 +137,7 @@ public class HomeFragment extends Fragment {
         warningText = view.findViewById(R.id.tv_warning);
         instructText = view.findViewById(R.id.tv_insruct);
         logoutIv = view.findViewById(R.id.iv_logout);
+        flipModeIb = view.findViewById(R.id.ib_flip_mode);
+        modeTv = view.findViewById(R.id.tv_mode_value);
     }
 }
