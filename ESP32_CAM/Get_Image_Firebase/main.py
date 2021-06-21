@@ -76,6 +76,7 @@ print('Connected to Camera!')
 def listen():
     print('Listening...',end='')
     fb.sendRequireSignal()
+    time.sleep(5)
     key, val = fb.getString64FromFirebase()
 
     last_str = fb.get_last_string()

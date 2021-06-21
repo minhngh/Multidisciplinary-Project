@@ -1,4 +1,4 @@
-debug = True
+debug = False
 
 import os
 import sys
@@ -54,8 +54,10 @@ class CautionThread(threading.Thread):
         global mode
         mode = 'CAUTION'
         print('TURN ON CAUTION MODE')
+        count = 0
         while mode == 'CAUTION':
             time.sleep(5)
+            if count == 1: break
             # print('Do something...')
             if debug or self.mqtt.receive_door_state(): #when door open
                 pre_number_of_img = len(glob.glob(os.path.join(IMG_DIR,'*.*')))
@@ -64,12 +66,13 @@ class CautionThread(threading.Thread):
                 if pre_number_of_img != post_number_of_img:
                     img_name = os.path.join(IMG_DIR,'img_{}.jpg'.format(post_number_of_img-1))
                     if debug or (face_recognizer.recognize(img_name) != owner):
-                        # notify("Unknown")
+                        notify("Unknown")
                         self.mqtt.send__speaker_data(1001)
                         write_log(img_name,"unknown")
                     else: 
-                        # notify(owner)
+                        notify(owner)
                         write_log(img_name,owner)
+                    count += 1
 
             is_killed = self._kill.wait(self._interval) 
             if is_killed: 

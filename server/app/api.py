@@ -159,8 +159,8 @@ async def caution(user: Caution = Body(...)):
 @app.post("/turn-off-caution")
 async def normal(user: Normal = Body(...)):
     #TODO: check token
-
-    caution_thread.kill()
+    if caution_thread is not None:
+        caution_thread.kill()
     return {"turn-off-caution":"successful"}
 
 @app.post("/get-log")
