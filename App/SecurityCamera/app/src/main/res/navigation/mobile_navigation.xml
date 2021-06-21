@@ -18,11 +18,6 @@
         tools:layout="@layout/fragment_history" />
 
     <fragment
-        android:id="@+id/navigation_setting"
-        android:name="com.example.securitycamera.ui.setting.SettingFragment"
-        android:label="@string/title_setting"
-        tools:layout="@layout/fragment_setting" />
-    <fragment
         android:id="@+id/navigation_schedule"
         android:name="com.example.securitycamera.ui.schedule.ScheduleFragment"
         android:label="Schedule"
