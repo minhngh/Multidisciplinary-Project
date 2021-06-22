@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.securitycamera.data.local.AppPreferences;
 import com.example.securitycamera.data.model.DoorState;
+import com.example.securitycamera.data.model.Mode;
 import com.example.securitycamera.data.remote.MainApiUtils;
 import com.google.gson.JsonObject;
 
@@ -55,6 +56,32 @@ public class HomeViewModel extends AndroidViewModel {
         });
     }
 
+
+    public void checkMode(){
+        Call<JsonObject> call =  mainApiService.checkMode("TOKEN");
+        call.enqueue(new Callback<JsonObject>(){
+
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.code() == 200){
+                    if (response.body().get("mode").toString().contains("CAUTION")){
+                        isAlertMode.postValue(true);
+                    }
+                    else{
+                        isAlertMode.postValue(false);
+                    }
+                }
+                else{
+                    doorState.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                doorState.postValue(null);
+            }
+        });
+    }
     public void mute(){
         Call<JsonObject> call = mainApiService.mute("TOKEN");
         call.enqueue(new Callback<JsonObject>(){

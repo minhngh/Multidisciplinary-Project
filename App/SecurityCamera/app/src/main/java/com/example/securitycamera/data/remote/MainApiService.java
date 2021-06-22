@@ -23,6 +23,8 @@ public interface MainApiService {
     Call<JsonObject> login(@Body User user);
     @POST("/check-door")
     Call<JsonObject> checkDoorState(@Body Token token);
+    @POST("/check-mode")
+    Call<JsonObject> checkMode(@Body Token token);
     @POST("/mute")
     Call<JsonObject> mute(@Body Token token);
     @POST("/unmute")

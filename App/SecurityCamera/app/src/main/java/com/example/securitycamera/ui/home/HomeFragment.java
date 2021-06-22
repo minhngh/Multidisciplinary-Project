@@ -1,4 +1,3 @@
-
 package com.example.securitycamera.ui.home;
 
 import android.content.BroadcastReceiver;
@@ -32,6 +31,7 @@ public class HomeFragment extends Fragment {
     private TextView doorTimeTv;
     private ImageView doorIv;
     private ImageButton reloadDoorStateIb;
+    private ImageButton reloadMode;
     private ImageButton speakerIb;
     private ImageButton flipModeIb;
     private TextView warningText;
@@ -75,9 +75,13 @@ public class HomeFragment extends Fragment {
         speakerIb.setOnClickListener(v ->{
             toggleSpeakerState();
         });
+
         homeViewModel.turnOnCaution();
         flipModeIb.setOnClickListener(v -> {
             homeViewModel.switchMode();
+        });
+        reloadMode.setOnClickListener(v->{
+            homeViewModel.checkMode();
         });
         logoutIv.setOnClickListener(v -> {
             homeViewModel.logout();
@@ -89,9 +93,11 @@ public class HomeFragment extends Fragment {
         homeViewModel.getIsAlertMode().observe(getViewLifecycleOwner(), isAlertMode -> {
            if (isAlertMode){
                modeTv.setText("ALERT");
+               flipModeIb.setImageResource(R.drawable.ic_baseline_lock_24);
            }
            else{
                modeTv.setText("NORMAL");
+               flipModeIb.setImageResource(R.drawable.ic_baseline_lock_open_24);
            }
         });
         BroadcastReceiver messageReceiver = new BroadcastReceiver(){
@@ -139,5 +145,6 @@ public class HomeFragment extends Fragment {
         logoutIv = view.findViewById(R.id.iv_logout);
         flipModeIb = view.findViewById(R.id.ib_flip_mode);
         modeTv = view.findViewById(R.id.tv_mode_value);
+        reloadMode = view.findViewById(R.id.ib_refresh_mode);
     }
 }

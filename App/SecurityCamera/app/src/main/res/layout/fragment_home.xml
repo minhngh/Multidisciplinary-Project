@@ -152,9 +152,10 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="10dp"
             android:paddingVertical="5dp">
-            <ImageView
-                android:id="@+id/iv_lock"
+            <ImageButton
+                android:id="@+id/ib_flip_mode"
                 android:layout_width="48dp"
+                android:background="@color/white"
                 android:layout_height="48dp"
                 android:src="@drawable/ic_baseline_lock_24"
                 android:contentDescription="" />
@@ -163,9 +164,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="20dp"
-                android:layout_toEndOf="@id/iv_lock"
-                android:layout_alignTop="@id/iv_lock"
-                android:layout_alignBottom="@id/iv_lock">
+                android:layout_toEndOf="@id/ib_flip_mode"
+                android:layout_alignTop="@id/ib_flip_mode"
+                android:layout_alignBottom="@id/ib_flip_mode">
 
                 <TextView
                     android:id="@+id/tv_mode"
@@ -199,12 +200,12 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
             <ImageButton
-                android:id="@+id/ib_flip_mode"
+                android:id="@+id/ib_refresh_mode"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:scaleType="fitCenter"
                 android:background="@color/white"
-                android:src="@drawable/ic_baseline_flip_mode"
+                android:src="@drawable/ic_baseline_refresh_24"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
