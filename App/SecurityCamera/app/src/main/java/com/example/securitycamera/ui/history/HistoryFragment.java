@@ -132,6 +132,7 @@ public class HistoryFragment extends Fragment {
         {
             int p = data.getIntExtra("position", 0);
             userInfoList.remove(p);
+            listUserConvert.remove(p);
             adapter.notifyDataSetChanged();
         }
     }
