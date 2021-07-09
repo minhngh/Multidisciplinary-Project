@@ -6,23 +6,27 @@ from abc import ABC
 from typing import List
 
 
-class UserSchema(BaseModel):
+class UserSignup(BaseModel):
     username: str = Field(...)
     password: str = Field(...)
 
 
-class UserLoginSchema(BaseModel):
+class UserLogin(BaseModel):
     username: str = Field(...)
     password: str = Field(...)
+
 
 class CheckDoor(BaseModel):
     access_token: str = Field(...)
 
+
 class CheckMode(BaseModel):
     access_token: str = Field(...)
 
+
 class Mute(BaseModel):
     access_token: str = Field(...)
+
 
 class Unmute(BaseModel):
     access_token: str = Field(...)
@@ -36,36 +40,19 @@ class Schedule(BaseModel):
     isEnabled: bool = Field(...)
 
 
-class ScheduleChange(ABC, BaseModel):
-    pass
-
-
-class ScheduleInsert(ScheduleChange):
-    schedule: Schedule = Field(...)
-
-
-class ScheduleDelete(ScheduleChange):
-    schedule: Schedule = Field(...)
-
-
-class ScheduleDeleteAll(ScheduleChange):
-    pass
-
-
-class ScheduleChangeLog(BaseModel):
-    version: int = Field(...)
-    scheduleChanges: List[ScheduleChange] = Field(...)
-
-
 class Caution(BaseModel):
     access_token: str = Field(...)
+
+
 class Normal(BaseModel):
     access_token: str = Field(...)
+
 
 class GetLog(BaseModel):
     access_token: str = Field(...)
     start_time: str = Field(...)
     end_time: str = Field(...)
+
 
 class RemoveLog(BaseModel):
     access_token: str = Field(...)
