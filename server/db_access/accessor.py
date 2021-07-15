@@ -204,6 +204,31 @@ class DbAccessor:
             is_enabled=tup[5]
         )
 
+    def get_all_schedules(self) -> List[ScheduleSchema]:
+        self._logger.debug("get_all_schedules()")
+
+        cursor = self._db_conn.cursor()
+
+        sql = """
+            SELECT *
+            FROM {}
+        """.format(TableName.Schedule.value)
+
+        cursor.execute(sql, param)
+        result = cursor.fetchall()
+
+        return [
+            ScheduleSchema(
+                username=tup[0],
+                time=(tup[1] + datetime.datetime.min).time(),
+                description=tup[2],
+                is_actives=tup[3],
+                to_cautious_mode=tup[4],
+                is_enabled=tup[5]
+            )
+            for tup in result
+        ]
+
     def get_schedules(self, username: str) -> List[ScheduleSchema]:
         self._logger.debug("get_schedules(%s)", username)
 

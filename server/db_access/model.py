@@ -15,7 +15,7 @@ class ScheduleSchema(BaseModel):
     username: str = Field(max_length=128)
     time: datetime.time = Field(...)
     description: str = Field(max_length=128)
-    is_actives: int = Field(ge=0, lt=2 ** 7)
+    is_actives: int = Field(ge=0, lt=2 ** N_DAY_OF_THE_WEEK)
     to_cautious_mode: bool = Field(...)
     is_enabled: bool = Field(...)
 

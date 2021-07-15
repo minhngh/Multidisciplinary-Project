@@ -1,21 +1,19 @@
-from mqtt import MQTT
-mqtt = MQTT()
+from scheduler import Scheduler
 
-from app.model import *
 from app.auth.auth_bearer import JWTBearer
 from app.auth.auth_handler import sign_jwt, decode_jwt
 
 from fastapi import Body, Header, Depends, FastAPI
 from fastapi import HTTPException
 
-from datetime import datetime
-
 from .api_helper import *
 
-app = FastAPI()
 
-# turn_on_thread = KillableThread(target=turn_on,args=[turn_on_thread,mqtt])
-caution_thread = None
+register_all_mode_change_tasks()
+scheduler = Scheduler(60 * 1000)
+scheduler.run()
+
+app = FastAPI()
 
 
 # route handlers
@@ -35,9 +33,9 @@ async def user_login(user: UserLogin = Body(...)):
 
 @app.post("/check-door")
 async def check_door(user: CheckDoor = Body(...)):
-    #TODO: check token
+    # TODO: check token
     now = datetime.now()
-    mqtt_output = mqtt.receive_door_state()
+    mqtt_output = global_mqtt.receive_door_state()
     state = 'open' if mqtt_output else 'close'
 
     return {
@@ -48,7 +46,7 @@ async def check_door(user: CheckDoor = Body(...)):
 
 @app.post("/check-mode")
 async def check_door(user: CheckMode = Body(...)):
-    #TODO: check token
+    # TODO: check token
     now = datetime.now()
     mode = get_mode().lower()
 
@@ -60,8 +58,8 @@ async def check_door(user: CheckMode = Body(...)):
 
 @app.post("/mute")
 async def mute(user: Mute = Body(...)):
-    #TODO: check token
-    mqtt.send__speaker_data(0)
+    # TODO: check token
+    global_mqtt.send__speaker_data(0)
     return {
         'mute': 'successful'
     }
@@ -69,8 +67,8 @@ async def mute(user: Mute = Body(...)):
 
 @app.post("/unmute")
 async def unmute(user: Unmute = Body(...)):
-    #TODO: check token
-    mqtt.send__speaker_data(1000)
+    # TODO: check token
+    global_mqtt.send__speaker_data(1000)
     return {
         'unmute': 'successful'
     }
@@ -84,34 +82,40 @@ async def get_schedules(authorization: str = Header(None), version: int = Body(.
 
 @app.post("/remove-schedule", dependencies=[Depends(JWTBearer())], tags=['schedule'])
 async def remove_schedule(
-        authorization: str = Header(None), version: int = Body(...), schedule: Schedule = Body(...)
+        authorization: str = Header(None), version: int = Body(...), schedule_: Schedule = Body(...)
 ):
     username = decode_jwt(authorization[len("Bearer "):])['username']
-    delete_schedule(username, schedule)
+    delete_schedule(username, schedule_)
 
 
 @app.post("/add-schedule", dependencies=[Depends(JWTBearer())], tags=['schedule'])
 async def add_schedule(
-        authorization: str = Header(None), version: int = Body(...), schedule: Schedule = Body(...)
+        authorization: str = Header(None), version: int = Body(...), schedule_: Schedule = Body(...)
 ) -> bool:
     username = decode_jwt(authorization[len("Bearer "):])['username']
-    return insert_schedule(username, schedule)
+    return insert_schedule(username, schedule_)
 
 
 @app.post("/update-schedule", dependencies=[Depends(JWTBearer())], tags=['schedule'])
 async def update_schedule(
         authorization: str = Header(None), version: int = Body(...),
-        schedule_remove: Schedule = Body(...), schedule_add: Schedule = Body(...),
+        schedule_to_remove: Schedule = Body(...), schedule_add: Schedule = Body(...),
 ) -> bool:
     username = decode_jwt(authorization[len("Bearer "):])['username']
-    schedule_remove = get_schedule(username, schedule_remove)
-    if schedule_remove is None:
+
+    schedule_to_remove = get_schedule(username, schedule_to_remove)
+
+    is_successful = schedule_to_remove is not None
+    if not is_successful:
         return False
 
-    delete_schedule(username, schedule_remove)
+    delete_schedule(username, schedule_to_remove)
 
-    if not insert_schedule(username, schedule_add):
-        insert_schedule(username, schedule_remove)
+    is_successful = insert_schedule(username, schedule_add)
+
+    if not is_successful:
+        # Restore the deleted schedule on failure
+        insert_schedule(username, schedule_to_remove)
         return False
 
     return True
@@ -119,34 +123,32 @@ async def update_schedule(
 
 @app.post("/turn-on-caution")
 async def caution(user: Caution = Body(...)):
-    #TODO: check token
+    # TODO: check token
     if get_mode() == 'CAUTION':
-        return {"turn-on-caution":"Mode is already CAUTION, do nothing"}
-    
-    global caution_thread
-    caution_thread = CautionThread(mqtt=mqtt)
-    caution_thread.start()
-    return {"turn-on-caution":'successful'}
+        return {"turn-on-caution": "Mode is already CAUTION, do nothing"}
+
+    turn_on_caution_thread()
+
+    return {"turn-on-caution": 'successful'}
 
 
 @app.post("/turn-off-caution")
 async def normal(user: Normal = Body(...)):
-    #TODO: check token
-    if caution_thread is not None:
-        caution_thread.kill()
-    return {"turn-off-caution":'successful'}
+    # TODO: check token
+    turn_off_caution_thread()
+    return {"turn-off-caution": 'successful'}
 
 
 @app.post("/get-log")
 async def get_log(user: GetLog = Body(...)):
-    #TODO: check token
+    # TODO: check token
     log = read_log(user.start_time,user.end_time)
     return {"log": str(log)}
 
 
 @app.post("/remove-log")
 async def remove_log(user: RemoveLog = Body(...)):
-    #TODO: check token
+    # TODO: check token
     id = user.id
     try:
         db_remove_log(id)
