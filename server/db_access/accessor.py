@@ -125,6 +125,10 @@ class DbAccessor:
             start_time: datetime.datetime = datetime.datetime.min,
             end_time: datetime.datetime = datetime.datetime.max
     ) -> List[LogSchema]:
+        if start_time is None:
+            start_time = datetime.datetime = datetime.datetime.min
+        if end_time is None:
+            end_time = datetime.datetime = datetime.datetime.max
         start_time: str = start_time.strftime(self.MYSQL_DATE_FORMAT)
         end_time: str = end_time.strftime(self.MYSQL_DATE_FORMAT)
 
@@ -213,8 +217,8 @@ class DbAccessor:
             SELECT *
             FROM {}
         """.format(TableName.Schedule.value)
-
-        cursor.execute(sql, param)
+	
+        cursor.execute(sql)
         result = cursor.fetchall()
 
         return [

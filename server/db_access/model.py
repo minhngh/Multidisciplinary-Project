@@ -5,7 +5,7 @@ from abc import ABC
 
 from typing import List
 
-
+N_DAY_OF_THE_WEEK = 7
 class UserSchema(BaseModel):
     username: str = Field(max_length=128)
     password: str = Field(max_length=128)

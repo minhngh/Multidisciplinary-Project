@@ -22,10 +22,10 @@ class ConfigAccessor:
     _key_to_encrypt: str = 'key_encrypt'
     _algorithm_to_encrypt: str = 'algorithm_encrypt'
 
-    _host_database: str = 'db_host'
-    _username_database: str = 'db_username'
-    _password_database: str = 'db_password'
-    _name_database: str = 'db_name'
+    _host_database: str = 'host'
+    _username_database: str = 'user'
+    _password_database: str = 'password'
+    _name_database: str = 'database'
 
     def __init__(self):
         dotenv.load_dotenv(self._dotenv_file)

@@ -145,6 +145,7 @@ def read_log(start_time, end_time) -> List[Dict[str, Any]]:
         end_time = None
 
     result = []
+    print('dasdasd', start_time, end_time)
     for log in db_accessor.get_logs_in_interval(start_time, end_time):
         with open(os.path.join(IMG_DIR, log.image), 'rb') as img_file:
             encoded = base64.b64encode(img_file.read())
