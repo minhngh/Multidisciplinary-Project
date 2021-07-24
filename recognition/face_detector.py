@@ -17,7 +17,7 @@ class FaceDetector:
         if swap_color:
             image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
         return image
-    def detect_faces(self, image, swap_color = True):
+    def detect_faces(self, image, swap_color = False):
         assert image is not None, "Image can't be NONE"
         if isinstance(image, str):
             image = cv.imread(image)

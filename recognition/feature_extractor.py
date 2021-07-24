@@ -6,7 +6,8 @@ from net.inception_resnet import InceptionResNetV2
 
 class FeatureExtractor:
     def __init__(self):
-        model_weights_path = os.path.join('.', 'pretrained-models', 'facenet_keras_weights.h5')
+        path = os.path.abspath(__file__)
+        model_weights_path = os.path.join(path.rsplit(os.path.sep, 1)[0], 'pretrained-models', 'facenet_keras_weights.h5')
         self.facenet = InceptionResNetV2()
         self.facenet.load_weights(model_weights_path)
     def normalize_image(self, images):

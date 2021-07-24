@@ -11,9 +11,9 @@
         android:icon="@drawable/ic_baseline_history_24"
         android:title="@string/title_history" />
 
-    <item
-        android:id="@+id/navigation_setting"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="@string/title_setting" />
 
+    <item
+        android:id="@+id/navigation_schedule"
+        android:icon="@drawable/ic_alarm"
+        android:title="Schedule" />
 </menu>

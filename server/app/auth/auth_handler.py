@@ -1,13 +1,13 @@
 import jwt
-# noinspection PyPackageRequirements
-import decouple
+from config_access import ConfigAccessor
 
 import time
 from typing import Dict, Optional
 
+config_accessor = ConfigAccessor.get_instance()
 
-__jwt_secret = decouple.config("secret")
-__jwt_algo = decouple.config("algorithm")
+__jwt_secret = config_accessor.key_to_encrypt
+__jwt_algo = config_accessor.algorithm_to_encrypt
 
 
 def token_response(token: bytes):
@@ -16,9 +16,9 @@ def token_response(token: bytes):
     }
 
 
-def sign_jwt(sth: str) -> Dict[str, bytes]:
+def sign_jwt(username: str) -> Dict[str, bytes]:
     payload = {
-        "data": sth,
+        "username": username,
         "exp": time.time() + 3600
     }
     token = jwt.encode(payload, __jwt_secret, algorithm=__jwt_algo)

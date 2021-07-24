@@ -19,6 +19,7 @@ Check out the [post](https://testdriven.io/blog/fastapi-jwt-auth/).
     ```sh
     (venv)$ pip install -r requirements.txt
     ```
+1. Change settings of database in *config.yml*
 
 1. Run the app:
 

@@ -1,0 +1,3 @@
+-r server/requirements.txt
+-r ESP32_CAM/requirements.txt
+-r recognition/requirements.txt

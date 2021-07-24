@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DCDF6E4A">
+
+    <ImageView
+        android:padding="10dp"
+        android:id="@+id/imageViewUser"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        tools:layout_editor_absoluteX="14dp"
+        tools:layout_editor_absoluteY="14dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textViewType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guest"
+        android:layout_marginTop="20dp"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:layout_toRightOf="@+id/imageViewUser"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="13:50"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:layout_toRightOf="@+id/imageViewUser"
+        android:layout_below="@id/textViewType"
+        android:layout_marginLeft="20dp"/>
+</RelativeLayout>

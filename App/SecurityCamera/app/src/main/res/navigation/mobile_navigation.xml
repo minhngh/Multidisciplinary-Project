@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_history"
         android:name="com.example.securitycamera.ui.history.HistoryFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_history"
         tools:layout="@layout/fragment_history" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.securitycamera.ui.setting.SettingFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_setting" />
+        android:id="@+id/navigation_schedule"
+        android:name="com.example.securitycamera.ui.schedule.ScheduleFragment"
+        android:label="Schedule"
+        tools:layout="@layout/fragment_schedule" />
 </navigation>
