@@ -38,7 +38,7 @@ debug = config_accessor.log_mode == 'DEBUG'
 # Global variable to control system's mode
 mode = 'NORMAL'  # NORMAL/CAUTION
 owner = 'LeLong'
-relative_path = 'ESP32_CAM/images'
+relative_path = '../ESP32_CAM/images'
 IMG_DIR = os.path.join(get_root_path(), relative_path)
 
 try:
@@ -123,6 +123,12 @@ def read_log(start_time, end_time) -> List[Dict[str, Any]]:
 
     if end_time == '-1':
         end_time = None
+    
+    try:
+        start_time = datetime.strptime(start_time,"%d/%m/%Y")
+        end_time = datetime.strptime(end_time,"%d/%m/%Y")
+    except:
+        return []
 
     result = []
     for log in db_accessor.get_logs_in_interval(start_time, end_time):

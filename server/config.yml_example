@@ -1,0 +1,17 @@
+#Database info
+db_host: localhost
+db_username: 
+db_password: 
+db_name: USER
+
+#Adafruit info
+IO_USERNAME: 
+IO_KEY: 
+feed: 
+  input:
+    - bk-iot-magnetic
+  output:
+    - bk-iot-speaker
+
+FIREBASE_SERVER_API: 
+DEVIDE-IDS: 

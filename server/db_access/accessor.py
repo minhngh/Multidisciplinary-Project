@@ -12,7 +12,7 @@ from typing import Optional, Union
 
 
 class TableName(Enum):
-    User = 'account'
+    User = 'Account'
     Log = 'log'
     Schedule = 'schedule'
 
@@ -142,7 +142,6 @@ class DbAccessor:
 
         cursor.execute(sql, param)
         result = cursor.fetchall()
-
         return [
             LogSchema(
                 id=tup[0],
