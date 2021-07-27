@@ -78,7 +78,7 @@ class DbAccessor:
 
         cursor.execute(sql, param)
 
-        return len(cursor.fetchall()) == 0
+        return len(cursor.fetchall()) != 0
 
     def insert_user(self, user: UserSchema) -> bool:
         self._logger.debug("insert_user(%s)", str(user.dict()))
