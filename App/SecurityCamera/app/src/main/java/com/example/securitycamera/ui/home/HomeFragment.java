@@ -22,11 +22,13 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.example.securitycamera.R;
 import com.example.securitycamera.ui.login.LoginActivity;
 import com.example.securitycamera.viewmodel.HomeViewModel;
+import com.example.securitycamera.viewmodel.MainViewModel;
 
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private MainViewModel mainViewModel;
     private TextView doorStateTv;
     private TextView doorTimeTv;
     private ImageView doorIv;
@@ -39,12 +41,15 @@ public class HomeFragment extends Fragment {
     private TextView instructText;
     private boolean mute = true;
     private RelativeLayout speakerArea;
+    private TextView currentDateTv;
     private TextView modeTv;
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         return inflater.inflate(R.layout.fragment_home, container, false);
-
     }
 
     @Override
@@ -52,6 +57,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         findView(view);
         homeViewModel.checkDoorState();
+        currentDateTv.setText(homeViewModel.getCurrentDate());
 
         homeViewModel.getDoorState().observe(getViewLifecycleOwner(), doorState -> {
             if (doorState == null)
@@ -59,11 +65,11 @@ public class HomeFragment extends Fragment {
             if (doorState.isOpen()){
                 doorIv.setImageResource(R.drawable.ic_opened_door_aperture);
                 doorStateTv.setText("OPEN");
-
             }
             else{
                 doorIv.setImageResource(R.drawable.ic_closed_filled_rectangular_door);
                 doorStateTv.setText("CLOSE");
+
             }
             doorTimeTv.setText(doorState.getTime());
         });
@@ -76,7 +82,8 @@ public class HomeFragment extends Fragment {
             toggleSpeakerState();
         });
 
-        homeViewModel.turnOnCaution();
+//        homeViewModel.turnOnCaution();
+        homeViewModel.checkMode();
         flipModeIb.setOnClickListener(v -> {
             homeViewModel.switchMode();
         });
@@ -105,12 +112,25 @@ public class HomeFragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 String value = intent.getStringExtra("Face");
                 if (value.equals("Unknown")) {
-                    mute = true;
-                    toggleSpeakerState();
+//                    mute = true;
+//                    toggleSpeakerState();
+                    speakerArea.setBackgroundColor(Color.parseColor("#EE4E4E"));
+                    speakerIb.setBackgroundColor(Color.parseColor("#EE4E4E"));
+                    warningText.setText("Detected a stranger opening the door");
+                    instructText.setText("Press here to turn off speaker");
+                    mute = false;
+                    mainViewModel.setMute(mute);
                 }
             }
         };
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(messageReceiver, new IntentFilter("FirebaseAlert"));
+        if (!mainViewModel.isMute()){
+            speakerArea.setBackgroundColor(Color.parseColor("#EE4E4E"));
+            speakerIb.setBackgroundColor(Color.parseColor("#EE4E4E"));
+            warningText.setText("Detected a stranger opening the door");
+            instructText.setText("Press here to turn off speaker");
+            mute = true;
+        }
     }
 
     private void toggleSpeakerState() {
@@ -130,6 +150,7 @@ public class HomeFragment extends Fragment {
             homeViewModel.mute();
             mute = true;
         }
+        mainViewModel.setMute(mute);
     }
 
     private void findView(View view){
@@ -146,5 +167,7 @@ public class HomeFragment extends Fragment {
         flipModeIb = view.findViewById(R.id.ib_flip_mode);
         modeTv = view.findViewById(R.id.tv_mode_value);
         reloadMode = view.findViewById(R.id.ib_refresh_mode);
+        currentDateTv = view.findViewById(R.id.tv_calendar_today);
     }
+
 }

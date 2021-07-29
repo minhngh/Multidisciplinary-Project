@@ -18,6 +18,9 @@ import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,7 +31,7 @@ public class HomeViewModel extends AndroidViewModel {
 
     private AppPreferences preferenceManager;
     private MutableLiveData<Boolean> isAlertMode = new MutableLiveData<>();
-
+    private boolean is_mute;
     public HomeViewModel(@NonNull @NotNull Application application) {
         super(application);
         isAlertMode.setValue(true);
@@ -168,4 +171,10 @@ public class HomeViewModel extends AndroidViewModel {
     public void logout(){
         preferenceManager.clearLogInState();
     }
+    public String getCurrentDate(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
+        Date date = new Date();
+        return formatter.format(date);
+    }
+
 }

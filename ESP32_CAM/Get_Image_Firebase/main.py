@@ -54,6 +54,7 @@ class FirebaseUtility:
 
             dictVal = db.reference("/Image").order_by_key().limit_to_last(1).get()
             return list(dictVal.keys()), list(dictVal.values())
+        
 
 
 # if __name__ == '__main__':

@@ -72,7 +72,10 @@ class CautionThread(threading.Thread):
 
             if debug or self.mqtt.receive_door_state():  # when door opens
                 pre_number_of_img = len(glob.glob(os.path.join(IMG_DIR, '*.*')))
-                listen()
+                try:
+                    listen()
+                except:
+                    continue
                 post_number_of_img = len(glob.glob(os.path.join(IMG_DIR, '*.*')))
 
                 if pre_number_of_img != post_number_of_img:
