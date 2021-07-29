@@ -76,7 +76,7 @@ async def unmute(user: Unmute = Body(...)):
     }
 
 
-@app.post("/get-schedules", dependencies=[Depends(JWTBearer())], tags=['schedule'])
+@app.post("/get-schedule-change", dependencies=[Depends(JWTBearer())], tags=['schedule'])
 async def get_schedules(authorization: str = Header(None), version: int = Body(...)) -> List[Schedule]:
     username = decode_jwt(authorization[len("Bearer "):])['username']
     return get_all_schedules(username)

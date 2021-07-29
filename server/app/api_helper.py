@@ -107,6 +107,7 @@ def get_mode():
 
 def write_log(img, label):
     log = LogSchema(
+        id = 0, #db will generate this automatic
         timestamp=datetime.now(),
         image=img.split('/')[-1],
         type=label
@@ -118,20 +119,19 @@ def write_log(img, label):
     
 
 def read_log(start_time, end_time) -> List[Dict[str, Any]]:
-    if start_time == '-1':
-        start_time = None
-
-    if end_time == '-1':
-        end_time = None
-    
-    try:
-        start_time = datetime.strptime(start_time,"%d/%m/%Y")
-        end_time = datetime.strptime(end_time,"%d/%m/%Y")
-    except:
-        return []
+    dbresponse = []
+    if start_time == '-1' and end_time == "-1":
+        dbresponse = db_accessor.get_all_logs()
+    else: 
+        try:
+            start_time = datetime.strptime(start_time,"%d/%m/%Y")
+            end_time = datetime.strptime(end_time,"%d/%m/%Y")
+        except:
+            return []
+        dbresponse = db_accessor.get_logs_in_interval(start_time, end_time)
 
     result = []
-    for log in db_accessor.get_logs_in_interval(start_time, end_time):
+    for log in dbresponse:
         with open(os.path.join(IMG_DIR, log.image), 'rb') as img_file:
             encoded = base64.b64encode(img_file.read())
         new_log = {
@@ -173,9 +173,9 @@ def get_all_schedules(username: str) -> List[Schedule]:
         Schedule(
             time=str(schedule.time),
             description=schedule.description,
-            is_actives=[bool(schedule.is_actives & 2**i) for i in range(7)],
-            to_cautious_mode=schedule.to_cautious_mode,
-            is_enabled=schedule.is_enabled,
+            isActives=[bool(schedule.is_actives & 2**i) for i in range(7)],
+            toCautiousMode=schedule.to_cautious_mode,
+            isEnabled=schedule.is_enabled,
         )
         for schedule in db_accessor.get_schedules(username)
     ]
@@ -194,9 +194,9 @@ def get_schedule(username: str, schedule: Schedule) -> Optional[Schedule]:
     return Schedule(
         time=str(schedule.time),
         description=schedule.description,
-        is_actives=[bool(schedule.is_actives & 2**i) for i in range(7)],
-        to_cautious_mode=schedule.to_cautious_mode,
-        is_enabled=schedule.is_enabled,
+        isActives=[bool(schedule.is_actives & 2**i) for i in range(7)],
+        toCautious_mode=schedule.to_cautious_mode,
+        isEnabled=schedule.is_enabled,
     )
 
 
@@ -208,9 +208,9 @@ def delete_schedule(username: str, schedule: Schedule) -> None:
         username=username,
         time=datetime.datetime.strptime(schedule.time, format_time).time(),
         description=schedule.description,
-        is_actives=reduce(or_, (isActive << i for i, isActive in enumerate(schedule.isActives)), 0),
-        to_cautious_mode=schedule.toCautiousMode,
-        is_enabled=schedule.isEnabled
+        isActives=reduce(or_, (isActive << i for i, isActive in enumerate(schedule.isActives)), 0),
+        toCautious_mode=schedule.toCautiousMode,
+        isEnabled=schedule.isEnabled
     ))
 
 

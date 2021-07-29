@@ -10,6 +10,7 @@ import time
 from enum import Enum
 from typing import Optional, Union
 
+from datetime import timedelta
 
 class TableName(Enum):
     User = 'Account'
@@ -120,11 +121,34 @@ class DbAccessor:
         self._db_conn.commit()
         return True
 
+    def get_all_logs(self) -> List[LogSchema]:
+        self._logger.debug("get_all_logs")
+        cursor = self._db_conn.cursor()
+
+        sql = """
+            SELECT *
+            FROM {}
+        """.format(TableName.Log.value)
+
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        return [
+            LogSchema(
+                id=tup[0],
+                timestamp=tup[1],
+                image=tup[2],
+                type=tup[3]
+            )
+            for tup in result
+        ]
+
+
     def get_logs_in_interval(
             self,
             start_time: datetime.datetime = datetime.datetime.min,
             end_time: datetime.datetime = datetime.datetime.max
     ) -> List[LogSchema]:
+        end_time = end_time + timedelta(1) #bias 1 day
         start_time: str = start_time.strftime(self.MYSQL_DATE_FORMAT)
         end_time: str = end_time.strftime(self.MYSQL_DATE_FORMAT)
 
