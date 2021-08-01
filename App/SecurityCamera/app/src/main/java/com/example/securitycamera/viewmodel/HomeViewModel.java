@@ -67,7 +67,7 @@ public class HomeViewModel extends AndroidViewModel {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.code() == 200){
-                    if (response.body().get("mode").toString().contains("CAUTION")){
+                    if (response.body().get("mode").toString().toUpperCase().contains("CAUTION")){
                         isAlertMode.postValue(true);
                     }
                     else{

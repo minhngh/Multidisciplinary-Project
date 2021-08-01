@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,9 @@ import com.example.securitycamera.R;
 import com.example.securitycamera.ui.login.LoginActivity;
 import com.example.securitycamera.viewmodel.HomeViewModel;
 import com.example.securitycamera.viewmodel.MainViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 public class HomeFragment extends Fragment {

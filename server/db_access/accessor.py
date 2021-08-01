@@ -127,7 +127,7 @@ class DbAccessor:
 
         sql = """
             SELECT *
-            FROM {}
+            FROM {} ORDER BY timestamp DESC
         """.format(TableName.Log.value)
 
         cursor.execute(sql)
@@ -159,7 +159,7 @@ class DbAccessor:
         sql = """
             SELECT *
             FROM {}
-            WHERE timestamp >= %s AND timestamp <= %s
+            WHERE timestamp >= %s AND timestamp <= %s ORDER BY timestamp DESC
         """.format(TableName.Log.value)
 
         param = (start_time, end_time)

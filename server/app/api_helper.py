@@ -33,7 +33,7 @@ config_accessor = ConfigAccessor.get_instance()
 db_accessor = DbAccessor.get_instance()
 
 # Debug mode
-debug = config_accessor.log_mode == 'DEBUG'
+debug = False #config_accessor.log_mode == 'DEBUG'
 
 # Global variable to control system's mode
 mode = 'NORMAL'  # NORMAL/CAUTION
@@ -65,9 +65,8 @@ class CautionThread(threading.Thread):
 
         count = 0
         while mode == 'CAUTION':
-            time.sleep(5)
-
             if count == 1:
+                print('Received the image')
                 break
 
             if debug or self.mqtt.receive_door_state():  # when door opens
