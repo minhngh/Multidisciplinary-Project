@@ -21,5 +21,17 @@
         android:id="@+id/navigation_schedule"
         android:name="com.example.securitycamera.ui.schedule.ScheduleFragment"
         android:label="Schedule"
-        tools:layout="@layout/fragment_schedule" />
+        tools:layout="@layout/fragment_schedule">
+        <action
+            android:id="@+id/action_navigation_schedule_to_createAlarmFragment"
+            app:destination="@id/createAlarmFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAlarmFragment"
+        android:name="com.example.securitycamera.ui.schedule.ScheduleElement"
+        android:label="CreateAlarmFragment" >
+        <action
+            android:id="@+id/action_createAlarmFragment_to_navigation_schedule"
+            app:destination="@id/navigation_schedule" />
+    </fragment>
 </navigation>
