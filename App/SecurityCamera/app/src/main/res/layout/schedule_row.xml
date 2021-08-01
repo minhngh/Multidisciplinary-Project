@@ -55,6 +55,7 @@
         android:gravity="center"
         android:text="S"
         android:textColor="@color/enabled_text"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_schedule_time"
         app:layout_constraintTop_toTopOf="parent" />
@@ -67,6 +68,7 @@
         android:gravity="center"
         android:text="M"
         android:textColor="@color/enabled_text"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_sunday"
         app:layout_constraintTop_toTopOf="parent" />
@@ -79,6 +81,7 @@
         android:gravity="center"
         android:text="T"
         android:textColor="@color/enabled_text"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_monday"
         app:layout_constraintTop_toTopOf="parent" />
@@ -91,6 +94,7 @@
         android:gravity="center"
         android:text="W"
         android:textColor="@color/enabled_text"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_tuesday"
         app:layout_constraintTop_toTopOf="parent" />
@@ -103,6 +107,7 @@
         android:gravity="center"
         android:text="T"
         android:textColor="@color/enabled_text"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_wednesday"
         app:layout_constraintTop_toTopOf="parent" />
@@ -114,6 +119,7 @@
         android:layout_marginStart="2dp"
         android:text="F"
         android:textColor="@color/enabled_text"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_thursday"
         app:layout_constraintTop_toTopOf="parent" />
@@ -126,6 +132,7 @@
         android:gravity="center"
         android:text="S"
         android:textColor="@color/enabled_text"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_friday"
         app:layout_constraintTop_toTopOf="parent" />
