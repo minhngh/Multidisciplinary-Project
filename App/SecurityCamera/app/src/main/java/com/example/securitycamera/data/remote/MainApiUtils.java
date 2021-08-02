@@ -22,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainApiUtils {
     private static MainApiUtils instance = null;
 
-    public static final String BASE_URL = "http://192.168.10.117:8000";
+    public static final String BASE_URL = "http://192.168.1.7:8000";
     public static final Gson gson = new GsonBuilder()
             .setDateFormat("HH:mm:SS.sss")
             .create();

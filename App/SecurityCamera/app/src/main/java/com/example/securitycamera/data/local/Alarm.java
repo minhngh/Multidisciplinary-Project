@@ -1,21 +1,5 @@
 package com.example.securitycamera.data.local;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-import com.example.securitycamera.utils.AlarmBroadcastReceiver;
-import com.example.securitycamera.ui.schedule.DayUtil;
-
-import java.util.Calendar;
-
 import static com.example.securitycamera.utils.AlarmBroadcastReceiver.FRIDAY;
 import static com.example.securitycamera.utils.AlarmBroadcastReceiver.MONDAY;
 import static com.example.securitycamera.utils.AlarmBroadcastReceiver.RECURRING;
@@ -25,6 +9,24 @@ import static com.example.securitycamera.utils.AlarmBroadcastReceiver.THURSDAY;
 import static com.example.securitycamera.utils.AlarmBroadcastReceiver.TITLE;
 import static com.example.securitycamera.utils.AlarmBroadcastReceiver.TUESDAY;
 import static com.example.securitycamera.utils.AlarmBroadcastReceiver.WEDNESDAY;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import com.example.securitycamera.ui.schedule.DayUtil;
+import com.example.securitycamera.utils.AlarmBroadcastReceiver;
+
+import java.util.Calendar;
 
 @Entity(tableName = "alarm_table")
 public class Alarm {
@@ -112,6 +114,7 @@ public class Alarm {
         return sunday;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void schedule(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -144,19 +147,19 @@ public class Alarm {
         if (!recurring) {
             String toastText = null;
             try {
-                toastText = String.format("One Time Alarm %s scheduled for %s at %02d:%02d", title, DayUtil.toDay(calendar.get(Calendar.DAY_OF_WEEK)), hour, minute, alarmId);
+                toastText = String.format("One Time Schedule %s scheduled for %s at %02d:%02d", title, DayUtil.toDay(calendar.get(Calendar.DAY_OF_WEEK)), hour, minute, alarmId);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 
-            alarmManager.setExact(
+            alarmManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
                     calendar.getTimeInMillis(),
                     alarmPendingIntent
             );
         } else {
-            String toastText = String.format("Recurring Alarm %s scheduled for %s at %02d:%02d", title, getRecurringDaysText(), hour, minute, alarmId);
+            String toastText = String.format("Recurring Schedule %s scheduled for %s at %02d:%02d", title, getRecurringDaysText(), hour, minute, alarmId);
             Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 
             final long RUN_DAILY = 24 * 60 * 60 * 1000;
@@ -178,7 +181,7 @@ public class Alarm {
         alarmManager.cancel(alarmPendingIntent);
         this.started = false;
 
-        String toastText = String.format("Alarm cancelled for %02d:%02d with id %d", hour, minute, alarmId);
+        String toastText = String.format("Schedule cancelled for %02d:%02d with id %d", hour, minute, alarmId);
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
         Log.i("cancel", toastText);
     }
