@@ -25,6 +25,7 @@ public class AlarmsListViewModel extends AndroidViewModel {
     public void update(Alarm alarm) {
         alarmRepository.update(alarm);
     }
+    public void delete(int id){alarmRepository.delete(id);}
 
     public LiveData<List<Alarm>> getAlarmsLiveData() {
         return alarmsLiveData;

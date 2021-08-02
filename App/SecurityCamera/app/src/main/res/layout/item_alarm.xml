@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
@@ -9,12 +9,13 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="6dp"
         app:cardElevation="6dp"
-        android:layout_margin="8dp">
+        android:layout_margin="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+
             android:padding="6dp">
 
             <TextView
@@ -40,6 +41,7 @@
                     android:id="@+id/item_alarm_recurringDays"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     android:textSize="10sp" />
 
                 <TextView
@@ -50,9 +52,18 @@
 
             </LinearLayout>
 
+            <ImageButton
+                android:id="@+id/item_alarm_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:src="@drawable/ic_baseline_delete_24">
+
+            </ImageButton>
+
             <Switch
                 android:id="@+id/item_alarm_started"
-                android:layout_width="wrap_content"
+                android:layout_width="99dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 

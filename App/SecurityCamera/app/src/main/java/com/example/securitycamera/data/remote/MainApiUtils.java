@@ -6,13 +6,10 @@ import com.example.securitycamera.data.model.ImageInfo;
 import com.example.securitycamera.data.model.Token;
 import com.example.securitycamera.data.model.User;
 import com.example.securitycamera.data.model.UserInfoDeletion;
-
 import com.example.securitycamera.data.model.schedule.Schedule;
 import com.example.securitycamera.data.model.schedule.change.ScheduleChangeLog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -22,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainApiUtils {
     private static MainApiUtils instance = null;
 
-    public static final String BASE_URL = "http://192.168.1.7:8000";
+    public static final String BASE_URL = "http://192.168.10.117:8000";
     public static final Gson gson = new GsonBuilder()
             .setDateFormat("HH:mm:SS.sss")
             .create();

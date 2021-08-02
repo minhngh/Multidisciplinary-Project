@@ -2,6 +2,7 @@ package com.example.securitycamera.ui.schedule;
 
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -17,7 +18,8 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     private ImageView alarmRecurring;
     private TextView alarmRecurringDays;
     private TextView alarmTitle;
-
+    private ImageButton alarmDelete;
+    private TextView alarmId;
     Switch alarmStarted;
 
     private OnToggleAlarmListener listener;
@@ -30,7 +32,7 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         alarmRecurring = itemView.findViewById(R.id.item_alarm_recurring);
         alarmRecurringDays = itemView.findViewById(R.id.item_alarm_recurringDays);
         alarmTitle = itemView.findViewById(R.id.item_alarm_title);
-
+        alarmDelete = itemView.findViewById(R.id.item_alarm_delete);
         this.listener = listener;
     }
 
@@ -49,9 +51,9 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         }
 
         if (alarm.getTitle().length() != 0) {
-            alarmTitle.setText(String.format("%s | %d | %d", alarm.getTitle(), alarm.getAlarmId(), alarm.getCreated()));
+            alarmTitle.setText(alarm.getTitle());
         } else {
-            alarmTitle.setText(String.format("%s | %d | %d", "Alarm", alarm.getAlarmId(), alarm.getCreated()));
+            alarmTitle.setText("Unknown");
         }
 
         alarmStarted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -60,5 +62,9 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
                 listener.onToggle(alarm);
             }
         });
+        alarmDelete.setOnClickListener(v ->{
+            listener.delete(alarm.getAlarmId());
+        });
+
     }
 }

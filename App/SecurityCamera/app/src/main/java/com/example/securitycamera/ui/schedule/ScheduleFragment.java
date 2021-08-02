@@ -1,5 +1,6 @@
 
 package com.example.securitycamera.ui.schedule;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -62,6 +64,7 @@ public class ScheduleFragment extends Fragment implements  OnToggleAlarmListener
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void onToggle(Alarm alarm) {
         if (alarm.isStarted()) {
             alarm.cancelAlarm(getContext());
@@ -70,5 +73,8 @@ public class ScheduleFragment extends Fragment implements  OnToggleAlarmListener
             alarm.schedule(getContext());
             alarmsListViewModel.update(alarm);
         }
+    }
+    public void delete(int id){
+        alarmsListViewModel.delete(id);
     }
 }
