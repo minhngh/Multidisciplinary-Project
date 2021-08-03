@@ -9,29 +9,13 @@
     >
 
     <ImageButton
-        android:id="@+id/imageStatistic"
-        android:layout_width="108dp"
-        android:layout_height="69dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:background="@drawable/custom_button_history"
-        android:scaleType="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/statistic_" />
-
-    <ImageButton
         android:id="@+id/imageDateTime"
-        android:layout_width="108dp"
-        android:layout_height="69dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
+        android:layout_width="153dp"
+        android:layout_height="70dp"
         android:layout_marginTop="28dp"
         android:background="@drawable/custom_button_history"
         android:scaleType="fitCenter"
-        app:layout_constraintEnd_toStartOf="@+id/imageStatistic"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/date_time" />
