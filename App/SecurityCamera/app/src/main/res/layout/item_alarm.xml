@@ -51,22 +51,27 @@
                     android:textSize="12sp"/>
 
             </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/item_alarm_delete"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:src="@drawable/ic_baseline_delete_24">
+                android:layout_height="match_parent">
+                <ImageButton
+                    android:id="@+id/item_alarm_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:src="@drawable/ic_baseline_delete_24"
+                    android:paddingEnd="10dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_above="@id/item_alarm_started"/>
 
-            </ImageButton>
-
-            <Switch
-                android:id="@+id/item_alarm_started"
-                android:layout_width="99dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
+                <Switch
+                    android:id="@+id/item_alarm_started"
+                    android:layout_width="99dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
